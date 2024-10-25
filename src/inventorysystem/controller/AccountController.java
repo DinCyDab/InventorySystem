@@ -5,17 +5,33 @@ import inventorysystem.model.Account;
 public class AccountController {
     private Account account;
     private DatabaseController dc = new DatabaseController();
-    public void createAccount(int company_ID, String f_name, String l_name, String username, String password, String access_level){
+    public int createAccount(int company_ID, String f_name, String l_name, String username, String password, String access_level){
+        int isCreated = 0;
         String sql = "INSERT INTO "
                 + "Account(company_ID, first_name, last_name, username, password, access_level)"
                 + "VALUES('"+company_ID+"', '"+f_name+"', '"+l_name+"', '"+username+"', '"+password+"', '"+access_level+"')";
-        this.dc.insertQuery(sql);
+        isCreated = this.dc.insertQuery(sql);
+        return isCreated;
     }
     
-    public void loadAccount(String username){
-        String sql = "SELECT * FROM Account"
+    public boolean loadAccount(String username, String password){
+        boolean isLogin = false;
+        String sql = "SELECT * FROM Account "
                 + "WHERE username = '"+username+"'";
-        this.account = this.dc.loadAccountQuery(sql);
+        
+        Account temp_account = this.dc.loadAccountQuery(sql);
+        
+        String account_password = temp_account.getPassword();
+        
+        if(account_password.equals(password)){
+            isLogin = true;
+        }
+        
+        if(isLogin){
+            this.account = temp_account;
+        }
+        
+        return isLogin;
     }
     
     public Account getAccount(){

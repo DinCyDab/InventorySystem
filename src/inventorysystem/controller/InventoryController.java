@@ -7,15 +7,38 @@ public class InventoryController {
     private ArrayList<Inventory> inventories;
     private DatabaseController dc = new DatabaseController(); 
     
+    public InventoryController(){
+        
+    }
+    
+    public InventoryController(int company_ID){
+        this.loadInventory(company_ID);
+    }
+    
     public void createInventory(int company_ID, String name, String description){
         String sql = "INSERT INTO "
-                + "Inventory(company_ID, name, description)"
-                + "VALUES('"+company_ID+"' , '"+name+"', '"+description+"')";
+                + "Inventory(company_ID, inventory_name, description) "
+                + "VALUES('"+company_ID+"', '"+name+"', '"+description+"')";
+        this.dc.insertQuery(sql);
+    }
+    
+    public void updateInventory(int inventory_ID, String status){
+        String sql = "UPDATE inventory "
+                + "SET status = '"+status+"' "
+                + "WHERE inventory_ID = '"+inventory_ID+"'";
+        this.dc.insertQuery(sql);
+    }
+    
+    public void updateInventory(int inventory_ID, String name, String description){
+        String sql = "UPDATE inventory "
+                + "SET inventory_name = '"+name+"', "
+                + "description = '"+description+"'"
+                + "WHERE inventory_ID = '"+inventory_ID+"'";
         this.dc.insertQuery(sql);
     }
     
     public void loadInventory(int company_ID){
-        String sql = "SELECT * FROM Inventory"
+        String sql = "SELECT * FROM Inventory "
                 + "WHERE company_ID = '"+company_ID+"'";
         this.inventories = this.dc.loadInventoryQuery(sql);
     }

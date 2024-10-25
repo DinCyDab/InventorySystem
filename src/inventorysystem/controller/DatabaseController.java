@@ -9,7 +9,7 @@ public class DatabaseController {
     private final String username = "root";
     private final String password = "";
     
-    public int insertQuery(String sql){
+    public int insertQuery(String sql) {
         int inserted_ID = 0;
         try{
             Connection conn = DriverManager.getConnection(this.url, this.username, this.password);
@@ -18,12 +18,15 @@ public class DatabaseController {
             pstmt.executeUpdate();
             ResultSet rs = pstmt.getGeneratedKeys();
             
-            inserted_ID = rs.getInt(1);
+            if(rs.next()){
+                inserted_ID = rs.getInt(1);
+            }
             
             conn.close();
         }
         catch(SQLException e){
             System.out.println("Connection Failed!");
+            e.printStackTrace();
         }
         return inserted_ID;
     }
@@ -35,11 +38,13 @@ public class DatabaseController {
             
             ResultSet result = conn.createStatement().executeQuery(sql);
             
-            int company_ID = result.getInt("company_ID");
-            String company_name = result.getString("company_name");
-            String company_description = result.getString("company_description");
-            
-            company = new Company(company_ID, company_name, company_description);
+            if(result.next()){
+                int company_ID = result.getInt("company_ID");
+                String company_name = result.getString("company_name");
+                String company_description = result.getString("company_description");
+
+                company = new Company(company_ID, company_name, company_description);
+            }
             
             conn.close();
         }
@@ -56,14 +61,19 @@ public class DatabaseController {
             
             ResultSet result = conn.createStatement().executeQuery(sql);
             
-            int account_ID = result.getInt("account_ID");
-            int company_ID = result.getInt("company_ID");
-            String first_name = result.getString("first_name");
-            String last_name = result.getString("last_name");
-            String usernamE = result.getString("username");
-            String access_level = result.getString("access_level");
-            
-            account = new Account(account_ID, company_ID, first_name, last_name, usernamE, access_level);
+            if(result.next()){
+                int account_ID = result.getInt("account_ID");
+                int company_ID = result.getInt("company_ID");
+                String first_name = result.getString("first_name");
+                String last_name = result.getString("last_name");
+                String usernamE = result.getString("username");
+                String passworD = result.getString("password");
+                String access_level = result.getString("access_level");
+                
+                System.out.println(account_ID);
+
+                account = new Account(account_ID, company_ID, first_name, last_name, usernamE, passworD, access_level);
+            }
             
             conn.close();
         }
@@ -115,8 +125,9 @@ public class DatabaseController {
                 int c_ID = result.getInt("company_ID");
                 String name = result.getString("inventory_name");
                 String description = result.getString("description");
+                String status = result.getString("status");
                 
-                inventory = new Inventory(i_ID, c_ID, name, description);
+                inventory = new Inventory(i_ID, c_ID, name, description, status);
                 
                 inventories.add(inventory);
             }
