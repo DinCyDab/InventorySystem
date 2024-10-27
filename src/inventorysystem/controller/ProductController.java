@@ -21,9 +21,19 @@ public class ProductController {
                 + "VALUES('"+i_ID+"', '"+name+"', '"+desc+"', '"+qty+"')";
         this.dc.insertQuery(sql);
     }
+    
     public void updateProduct(int p_ID, String status){
         String sql = "UPDATE Product "
                 + "SET status = '"+status+"' "
+                + "WHERE product_ID = '"+p_ID+"'";
+        this.dc.insertQuery(sql);
+    }
+    
+    public void updateProduct(int p_ID, int i_ID, String name, String desc){
+        String sql = "UPDATE Product "
+                + "SET inventory_ID = '"+i_ID+"', "
+                + " product_name = '"+name+"', "
+                + " product_description = '"+desc+"' "
                 + "WHERE product_ID = '"+p_ID+"'";
         this.dc.insertQuery(sql);
     }

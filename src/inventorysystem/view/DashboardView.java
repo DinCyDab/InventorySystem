@@ -6,8 +6,14 @@ package inventorysystem.view;
 
 import inventorysystem.controller.*;
 import inventorysystem.model.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import javax.swing.Timer;
 
 
 /**
@@ -21,6 +27,17 @@ public class DashboardView extends javax.swing.JFrame {
     public ArrayList<Inventory> active_inventories;
     public DashboardView() {
         initComponents();
+        updateClock();
+        
+        Timer timer = new Timer(1000, e -> updateClock());
+        timer.start();
+    }
+    
+    private void updateClock() {
+        LocalTime now = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        String formattedNow = now.format(formatter);
+        jLabelHour.setText(formattedNow);
     }
 
     /**
@@ -44,93 +61,34 @@ public class DashboardView extends javax.swing.JFrame {
         jPanelDashboard = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabelAccountFirstName = new javax.swing.JLabel();
-        jPanelInventory = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButtonRefreshInventory = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTableInventory = new javax.swing.JTable();
-        jPanelProducts = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jButtonAddProduct = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
-        jButton15 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel29 = new javax.swing.JLabel();
-        jComboBoxProductsInventoryName = new javax.swing.JComboBox<>();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTableProducts = new javax.swing.JTable();
-        jButtonFilterProducts = new javax.swing.JButton();
-        jPanelAccounts = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        jPanelClockContainer = new javax.swing.JPanel();
+        jLabelHour = new javax.swing.JLabel();
         jPanelReports = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanelSettings = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jLabel19 = new javax.swing.JLabel();
-        jTextFieldSettingsFirstName = new javax.swing.JTextField();
-        jLabel20 = new javax.swing.JLabel();
-        jTextFieldSettingsLastName = new javax.swing.JTextField();
-        jLabel21 = new javax.swing.JLabel();
-        jTextFieldSettingsEmail = new javax.swing.JTextField();
-        jLabel22 = new javax.swing.JLabel();
+        jButton12 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel29 = new javax.swing.JLabel();
         jLabelSettingsUsername = new javax.swing.JLabel();
-        jLabel23 = new javax.swing.JLabel();
-        jLabel24 = new javax.swing.JLabel();
-        jLabel25 = new javax.swing.JLabel();
-        jTextFieldSettingsCurrentPassword = new javax.swing.JTextField();
-        jTextFieldSettingsNewPassword = new javax.swing.JTextField();
-        jTextFieldSettingsConfirmPassword = new javax.swing.JTextField();
-        jLabel26 = new javax.swing.JLabel();
+        jLabel30 = new javax.swing.JLabel();
         jLabelSettingsAccountID = new javax.swing.JLabel();
         jLabel27 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
         jLabelSettingsAccessLevel = new javax.swing.JLabel();
+        jTextFieldSettingsFirstName = new javax.swing.JTextField();
+        jTextFieldSettingsEmail = new javax.swing.JTextField();
+        jTextFieldSettingsCurrentPassword = new javax.swing.JTextField();
         jLabel28 = new javax.swing.JLabel();
         jLabelSettingsCompanyName = new javax.swing.JLabel();
-        jButton12 = new javax.swing.JButton();
-        jPanelModalAddProduct = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jTextFieldAddProductName = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTextAreaAddProductDescription = new javax.swing.JTextArea();
-        jLabel11 = new javax.swing.JLabel();
-        jTextFieldAddProductQuantity = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jComboBoxAddProductInventory = new javax.swing.JComboBox<>();
-        jPanelModalAddInventory = new javax.swing.JPanel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jTextFieldInventoryName = new javax.swing.JTextField();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTextAreaInventoryDescription = new javax.swing.JTextArea();
-        jPanelModalEditInventory = new javax.swing.JPanel();
-        jLabel15 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jButtonSave = new javax.swing.JButton();
-        jButtonClose = new javax.swing.JButton();
-        jTextFieldEditInventoryName = new javax.swing.JTextField();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTextAreaEditInventoryDescription = new javax.swing.JTextArea();
-        jLabel18 = new javax.swing.JLabel();
-        jLabelEditInventoryID = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jTextFieldSettingsLastName = new javax.swing.JTextField();
+        jLabel24 = new javax.swing.JLabel();
+        jTextFieldSettingsNewPassword = new javax.swing.JTextField();
+        jLabel25 = new javax.swing.JLabel();
+        jTextFieldSettingsConfirmPassword = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -235,6 +193,29 @@ public class DashboardView extends javax.swing.JFrame {
         jLabelAccountFirstName.setForeground(new java.awt.Color(0, 0, 0));
         jLabelAccountFirstName.setText("Welcome Back <name>!");
 
+        jPanelClockContainer.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabelHour.setFont(new java.awt.Font("Zelda Oracles", 1, 24)); // NOI18N
+        jLabelHour.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelHour.setText("HH:MM:SS");
+
+        javax.swing.GroupLayout jPanelClockContainerLayout = new javax.swing.GroupLayout(jPanelClockContainer);
+        jPanelClockContainer.setLayout(jPanelClockContainerLayout);
+        jPanelClockContainerLayout.setHorizontalGroup(
+            jPanelClockContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelClockContainerLayout.createSequentialGroup()
+                .addContainerGap(71, Short.MAX_VALUE)
+                .addComponent(jLabelHour)
+                .addGap(65, 65, 65))
+        );
+        jPanelClockContainerLayout.setVerticalGroup(
+            jPanelClockContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelClockContainerLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelHour)
+                .addContainerGap(42, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanelDashboardLayout = new javax.swing.GroupLayout(jPanelDashboard);
         jPanelDashboard.setLayout(jPanelDashboardLayout);
         jPanelDashboardLayout.setHorizontalGroup(
@@ -244,340 +225,21 @@ public class DashboardView extends javax.swing.JFrame {
                 .addGroup(jPanelDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabelAccountFirstName))
-                .addContainerGap(424, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 218, Short.MAX_VALUE)
+                .addComponent(jPanelClockContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanelDashboardLayout.setVerticalGroup(
             jPanelDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelDashboardLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(jLabelAccountFirstName)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanelInventory.setBackground(new java.awt.Color(0, 204, 204));
-
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("Inventory");
-
-        jButton1.setText("Add");
-        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton1MouseClicked(evt);
-            }
-        });
-
-        jButton2.setText("Set as Inactive");
-        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton2MouseClicked(evt);
-            }
-        });
-
-        jButtonRefreshInventory.setText("Refresh");
-        jButtonRefreshInventory.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonRefreshInventoryMouseClicked(evt);
-            }
-        });
-
-        jButton10.setText("Set as Active");
-        jButton10.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton10MouseClicked(evt);
-            }
-        });
-
-        jButton11.setText("Edit");
-        jButton11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton11MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1)
-                .addGap(18, 18, 18)
-                .addComponent(jButton2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton10)
-                .addGap(18, 18, 18)
-                .addComponent(jButton11)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addComponent(jButtonRefreshInventory)
-                .addContainerGap())
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButtonRefreshInventory)
-                    .addComponent(jButton10)
-                    .addComponent(jButton11))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jTableInventory.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Name", "Description", "Status", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane2.setViewportView(jTableInventory);
-        if (jTableInventory.getColumnModel().getColumnCount() > 0) {
-            jTableInventory.getColumnModel().getColumn(0).setPreferredWidth(5);
-            jTableInventory.getColumnModel().getColumn(3).setPreferredWidth(30);
-            jTableInventory.getColumnModel().getColumn(4).setPreferredWidth(10);
-        }
-
-        javax.swing.GroupLayout jPanelInventoryLayout = new javax.swing.GroupLayout(jPanelInventory);
-        jPanelInventory.setLayout(jPanelInventoryLayout);
-        jPanelInventoryLayout.setHorizontalGroup(
-            jPanelInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanelInventoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2)
-                    .addGroup(jPanelInventoryLayout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanelInventoryLayout.setVerticalGroup(
-            jPanelInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelInventoryLayout.createSequentialGroup()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanelProducts.setBackground(new java.awt.Color(0, 204, 204));
-
-        jButtonAddProduct.setText("Add");
-        jButtonAddProduct.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonAddProductMouseClicked(evt);
-            }
-        });
-        jButtonAddProduct.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAddProductActionPerformed(evt);
-            }
-        });
-
-        jButton6.setText("Set as Inactive");
-        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton6MouseClicked(evt);
-            }
-        });
-
-        jButton13.setText("Set as Active");
-        jButton13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton13MouseClicked(evt);
-            }
-        });
-
-        jButton14.setText("Edit");
-
-        jButton15.setText("Refresh");
-        jButton15.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton15MouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButtonAddProduct)
-                .addGap(18, 18, 18)
-                .addComponent(jButton6)
-                .addGap(18, 18, 18)
-                .addComponent(jButton13)
-                .addGap(18, 18, 18)
-                .addComponent(jButton14)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
-                .addComponent(jButton15)
-                .addContainerGap())
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonAddProduct)
-                    .addComponent(jButton6)
-                    .addComponent(jButton13)
-                    .addComponent(jButton14)
-                    .addComponent(jButton15))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Products");
-
-        jLabel29.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel29.setText("Inventory Name:");
-
-        jComboBoxProductsInventoryName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jTableProducts.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "ID", "Product Name", "Description", "Quantity", "Status", ""
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane5.setViewportView(jTableProducts);
-        if (jTableProducts.getColumnModel().getColumnCount() > 0) {
-            jTableProducts.getColumnModel().getColumn(5).setMaxWidth(15);
-        }
-
-        jButtonFilterProducts.setText("Filter");
-        jButtonFilterProducts.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonFilterProductsMouseClicked(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelProductsLayout = new javax.swing.GroupLayout(jPanelProducts);
-        jPanelProducts.setLayout(jPanelProductsLayout);
-        jPanelProductsLayout.setHorizontalGroup(
-            jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(jPanelProductsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane5)
-                    .addGroup(jPanelProductsLayout.createSequentialGroup()
-                        .addGroup(jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel8)
-                            .addGroup(jPanelProductsLayout.createSequentialGroup()
-                                .addComponent(jLabel29)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBoxProductsInventoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButtonFilterProducts)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-        );
-        jPanelProductsLayout.setVerticalGroup(
-            jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelProductsLayout.createSequentialGroup()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
-                .addGap(18, 18, 18)
-                .addGroup(jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel29)
-                    .addComponent(jComboBoxProductsInventoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonFilterProducts))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        jPanelAccounts.setBackground(new java.awt.Color(0, 204, 204));
-
-        jButton3.setText("Add");
-
-        jButton4.setText("Remove");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton3)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Accounts");
-
-        javax.swing.GroupLayout jPanelAccountsLayout = new javax.swing.GroupLayout(jPanelAccounts);
-        jPanelAccounts.setLayout(jPanelAccountsLayout);
-        jPanelAccountsLayout.setHorizontalGroup(
-            jPanelAccountsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAccountsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel7)
-                .addContainerGap(445, Short.MAX_VALUE))
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanelAccountsLayout.setVerticalGroup(
-            jPanelAccountsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelAccountsLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel7)
-                .addContainerGap(287, Short.MAX_VALUE))
+                .addGroup(jPanelDashboardLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanelClockContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelDashboardLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelAccountFirstName)))
+                .addContainerGap(362, Short.MAX_VALUE))
         );
 
         jPanelReports.setBackground(new java.awt.Color(0, 204, 204));
@@ -609,16 +271,60 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Settings");
 
-        jPanel4.setBackground(new java.awt.Color(0, 102, 102));
+        jButton12.setText("Save Changes");
+
+        jPanel1.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabel29.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel29.setText("Username:");
+
+        jLabelSettingsUsername.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsUsername.setText("N/A");
+
+        jLabel30.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel30.setText("Account ID:");
+
+        jLabelSettingsAccountID.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsAccountID.setText("N/A");
+
+        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel27.setText("Access Level:");
 
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
         jLabel19.setText("First Name:");
+
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Email:");
+
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText("Current Password:");
+
+        jLabelSettingsAccessLevel.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsAccessLevel.setText("N/A");
 
         jTextFieldSettingsFirstName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldSettingsFirstNameActionPerformed(evt);
             }
         });
+
+        jTextFieldSettingsEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsEmailActionPerformed(evt);
+            }
+        });
+
+        jTextFieldSettingsCurrentPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsCurrentPasswordActionPerformed(evt);
+            }
+        });
+
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Company:");
+
+        jLabelSettingsCompanyName.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsCompanyName.setText("N/A");
 
         jLabel20.setForeground(new java.awt.Color(255, 255, 255));
         jLabel20.setText("Last Name:");
@@ -629,35 +335,8 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
 
-        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel21.setText("Email:");
-
-        jTextFieldSettingsEmail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldSettingsEmailActionPerformed(evt);
-            }
-        });
-
-        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel22.setText("Username:");
-
-        jLabelSettingsUsername.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSettingsUsername.setText("N/A");
-
-        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel23.setText("Current Password:");
-
         jLabel24.setForeground(new java.awt.Color(255, 255, 255));
         jLabel24.setText("New Password:");
-
-        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel25.setText("Confirm Password:");
-
-        jTextFieldSettingsCurrentPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldSettingsCurrentPasswordActionPerformed(evt);
-            }
-        });
 
         jTextFieldSettingsNewPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -665,126 +344,97 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
 
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel25.setText("Confirm Password:");
+
         jTextFieldSettingsConfirmPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldSettingsConfirmPasswordActionPerformed(evt);
             }
         });
 
-        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel26.setText("Account ID:");
-
-        jLabelSettingsAccountID.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSettingsAccountID.setText("N/A");
-
-        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel27.setText("Access Level:");
-
-        jLabelSettingsAccessLevel.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSettingsAccessLevel.setText("N/A");
-
-        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel28.setText("Company:");
-
-        jLabelSettingsCompanyName.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelSettingsCompanyName.setText("N/A");
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel25)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel23)
-                                .addGap(24, 24, 24)
-                                .addComponent(jTextFieldSettingsCurrentPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLabel24)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldSettingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextFieldSettingsConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jLabel21)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jTextFieldSettingsEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel4Layout.createSequentialGroup()
-                                            .addComponent(jLabel19)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(jLabelSettingsUsername)
-                                                        .addComponent(jLabelSettingsAccessLevel))
-                                                    .addGap(78, 78, 78))
-                                                .addComponent(jTextFieldSettingsFirstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGap(12, 12, 12))
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(jLabel22)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel27)
-                                .addGap(164, 164, 164)))
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel29)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabel19)
+                    .addComponent(jLabel21)
+                    .addComponent(jLabel23))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelSettingsUsername)
+                            .addComponent(jLabelSettingsAccessLevel)
+                            .addComponent(jTextFieldSettingsCurrentPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jTextFieldSettingsEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldSettingsFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(27, 27, 27)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel30)
+                            .addComponent(jLabel28)
                             .addComponent(jLabel20)
-                            .addComponent(jLabel28))
-                        .addGap(47, 47, 47)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel24))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelSettingsCompanyName)
-                            .addComponent(jLabelSettingsAccountID)
-                            .addComponent(jTextFieldSettingsLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(14, 14, 14))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jTextFieldSettingsNewPassword, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jTextFieldSettingsLastName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelSettingsAccountID)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel25)
+                        .addGap(18, 18, 18)
+                        .addComponent(jTextFieldSettingsConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel22)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
                     .addComponent(jLabelSettingsUsername)
-                    .addComponent(jLabel26)
+                    .addComponent(jLabel30)
                     .addComponent(jLabelSettingsAccountID))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel27)
                     .addComponent(jLabelSettingsAccessLevel)
                     .addComponent(jLabel28)
                     .addComponent(jLabelSettingsCompanyName))
-                .addGap(34, 34, 34)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(jTextFieldSettingsFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextFieldSettingsLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel20))
+                    .addComponent(jLabel20)
+                    .addComponent(jTextFieldSettingsLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel21)
                     .addComponent(jTextFieldSettingsEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel23)
                     .addComponent(jTextFieldSettingsCurrentPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel24)
                     .addComponent(jTextFieldSettingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel25)
                     .addComponent(jTextFieldSettingsConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(54, 54, 54))
+                .addContainerGap(30, Short.MAX_VALUE))
         );
-
-        jButton12.setText("Save Changes");
 
         javax.swing.GroupLayout jPanelSettingsLayout = new javax.swing.GroupLayout(jPanelSettings);
         jPanelSettings.setLayout(jPanelSettingsLayout);
@@ -793,13 +443,13 @@ public class DashboardView extends javax.swing.JFrame {
             .addGroup(jPanelSettingsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSettingsLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton12))
                     .addGroup(jPanelSettingsLayout.createSequentialGroup()
                         .addComponent(jLabel6)
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSettingsLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jButton12)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanelSettingsLayout.setVerticalGroup(
@@ -808,294 +458,10 @@ public class DashboardView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton12)
                 .addContainerGap())
-        );
-
-        jPanelModalAddProduct.setBackground(new java.awt.Color(0, 102, 102));
-
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Add Product");
-
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel4.setText("Inventory Name:");
-
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Product Name:");
-
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel10.setText("Product Description:");
-
-        jTextFieldAddProductName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldAddProductNameActionPerformed(evt);
-            }
-        });
-
-        jTextAreaAddProductDescription.setColumns(20);
-        jTextAreaAddProductDescription.setRows(5);
-        jScrollPane1.setViewportView(jTextAreaAddProductDescription);
-
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Quantity");
-
-        jButton5.setText("Add");
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton5MouseClicked(evt);
-            }
-        });
-
-        jButton7.setText("Close");
-        jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton7MouseClicked(evt);
-            }
-        });
-
-        jComboBoxAddProductInventory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxAddProductInventory.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxAddProductInventoryActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanelModalAddProductLayout = new javax.swing.GroupLayout(jPanelModalAddProduct);
-        jPanelModalAddProduct.setLayout(jPanelModalAddProductLayout);
-        jPanelModalAddProductLayout.setHorizontalGroup(
-            jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModalAddProductLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelModalAddProductLayout.createSequentialGroup()
-                        .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(jPanelModalAddProductLayout.createSequentialGroup()
-                                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel9)
-                                    .addComponent(jLabel10))
-                                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelModalAddProductLayout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextFieldAddProductQuantity)
-                                            .addComponent(jScrollPane1)))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddProductLayout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jComboBoxAddProductInventory, 0, 234, Short.MAX_VALUE)
-                                            .addComponent(jTextFieldAddProductName)))))
-                            .addComponent(jLabel11))
-                        .addContainerGap(68, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddProductLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel3)
-                        .addGap(170, 170, 170))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddProductLayout.createSequentialGroup()
-                        .addComponent(jButton7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton5)
-                        .addContainerGap())))
-        );
-        jPanelModalAddProductLayout.setVerticalGroup(
-            jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModalAddProductLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jComboBoxAddProductInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(jTextFieldAddProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextFieldAddProductQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton7))
-                .addGap(7, 7, 7))
-        );
-
-        jPanelModalAddInventory.setBackground(new java.awt.Color(0, 102, 102));
-
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Add Inventory");
-
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setText("Inventory Name:");
-
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setText("Inventory Description:");
-
-        jButton8.setText("Add");
-        jButton8.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton8MouseClicked(evt);
-            }
-        });
-
-        jButton9.setText("Close");
-        jButton9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton9MouseClicked(evt);
-            }
-        });
-
-        jTextAreaInventoryDescription.setColumns(20);
-        jTextAreaInventoryDescription.setRows(5);
-        jScrollPane3.setViewportView(jTextAreaInventoryDescription);
-
-        javax.swing.GroupLayout jPanelModalAddInventoryLayout = new javax.swing.GroupLayout(jPanelModalAddInventory);
-        jPanelModalAddInventory.setLayout(jPanelModalAddInventoryLayout);
-        jPanelModalAddInventoryLayout.setHorizontalGroup(
-            jPanelModalAddInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModalAddInventoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelModalAddInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddInventoryLayout.createSequentialGroup()
-                        .addComponent(jButton9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton8))
-                    .addGroup(jPanelModalAddInventoryLayout.createSequentialGroup()
-                        .addGroup(jPanelModalAddInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelModalAddInventoryLayout.createSequentialGroup()
-                                .addComponent(jLabel13)
-                                .addGap(47, 47, 47)
-                                .addComponent(jTextFieldInventoryName))
-                            .addGroup(jPanelModalAddInventoryLayout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 66, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jPanelModalAddInventoryLayout.createSequentialGroup()
-                .addGap(159, 159, 159)
-                .addComponent(jLabel12)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanelModalAddInventoryLayout.setVerticalGroup(
-            jPanelModalAddInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModalAddInventoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel12)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanelModalAddInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(jTextFieldInventoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelModalAddInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 92, Short.MAX_VALUE)
-                .addGroup(jPanelModalAddInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton8)
-                    .addComponent(jButton9))
-                .addGap(7, 7, 7))
-        );
-
-        jPanelModalEditInventory.setBackground(new java.awt.Color(0, 102, 102));
-
-        jLabel15.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setText("Edit Inventory");
-
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setText("Inventory Name:");
-
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setText("Inventory Description:");
-
-        jButtonSave.setText("Save");
-        jButtonSave.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonSaveMouseClicked(evt);
-            }
-        });
-
-        jButtonClose.setText("Close");
-        jButtonClose.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonCloseMouseClicked(evt);
-            }
-        });
-
-        jTextAreaEditInventoryDescription.setColumns(20);
-        jTextAreaEditInventoryDescription.setRows(5);
-        jScrollPane4.setViewportView(jTextAreaEditInventoryDescription);
-
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setText("Inventory ID:");
-
-        jLabelEditInventoryID.setForeground(new java.awt.Color(255, 255, 255));
-        jLabelEditInventoryID.setText("0");
-
-        javax.swing.GroupLayout jPanelModalEditInventoryLayout = new javax.swing.GroupLayout(jPanelModalEditInventory);
-        jPanelModalEditInventory.setLayout(jPanelModalEditInventoryLayout);
-        jPanelModalEditInventoryLayout.setHorizontalGroup(
-            jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModalEditInventoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalEditInventoryLayout.createSequentialGroup()
-                        .addComponent(jButtonClose)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonSave))
-                    .addGroup(jPanelModalEditInventoryLayout.createSequentialGroup()
-                        .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanelModalEditInventoryLayout.createSequentialGroup()
-                                .addComponent(jLabel17)
-                                .addGap(18, 18, 18)
-                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelModalEditInventoryLayout.createSequentialGroup()
-                                .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel16)
-                                    .addComponent(jLabel18))
-                                .addGap(47, 47, 47)
-                                .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelEditInventoryID)
-                                    .addComponent(jTextFieldEditInventoryName))))
-                        .addGap(0, 66, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(jPanelModalEditInventoryLayout.createSequentialGroup()
-                .addGap(159, 159, 159)
-                .addComponent(jLabel15)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanelModalEditInventoryLayout.setVerticalGroup(
-            jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelModalEditInventoryLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel15)
-                .addGap(2, 2, 2)
-                .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel18)
-                    .addComponent(jLabelEditInventoryID))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel16)
-                    .addComponent(jTextFieldEditInventoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel17)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
-                .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButtonSave)
-                    .addComponent(jButtonClose))
-                .addGap(7, 7, 7))
         );
 
         javax.swing.GroupLayout jPanelContentLayout = new javax.swing.GroupLayout(jPanelContent);
@@ -1106,21 +472,6 @@ public class DashboardView extends javax.swing.JFrame {
             .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelContentLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jPanelInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelAccounts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
                     .addComponent(jPanelSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1128,21 +479,6 @@ public class DashboardView extends javax.swing.JFrame {
                     .addContainerGap()
                     .addComponent(jPanelReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap(58, Short.MAX_VALUE)
-                    .addComponent(jPanelModalAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(56, Short.MAX_VALUE)))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addGap(57, 57, 57)
-                    .addComponent(jPanelModalAddInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(57, Short.MAX_VALUE)))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanelModalEditInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         jPanelContentLayout.setVerticalGroup(
             jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1150,21 +486,6 @@ public class DashboardView extends javax.swing.JFrame {
             .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanelContentLayout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jPanelInventory, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelProducts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelAccounts, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
                     .addComponent(jPanelSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
             .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1172,21 +493,6 @@ public class DashboardView extends javax.swing.JFrame {
                     .addContainerGap()
                     .addComponent(jPanelReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap(49, Short.MAX_VALUE)
-                    .addComponent(jPanelModalAddProduct, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(38, Short.MAX_VALUE)))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addGap(43, 43, 43)
-                    .addComponent(jPanelModalAddInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(44, Short.MAX_VALUE)))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanelModalEditInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -1215,32 +521,25 @@ public class DashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDashboardMouseClicked
 
     private void jButtonInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonInventoryMouseClicked
+        InventoryView iv = new InventoryView(this.account, this.company);
         jPanelContent.removeAll();
-        jPanelContent.add(jPanelInventory);
+        jPanelContent.add(iv.getInventoryView());
         jPanelContent.repaint();
         jPanelContent.revalidate();
     }//GEN-LAST:event_jButtonInventoryMouseClicked
 
     private void jButtonProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonProductsMouseClicked
+        ProductView pv = new ProductView(this.account, this.company);
         jPanelContent.removeAll();
-        jPanelContent.add(jPanelProducts);
+        jPanelContent.add(pv.getProductView());
         jPanelContent.repaint();
         jPanelContent.revalidate();
-        
-        jComboBoxProductsInventoryName.removeAllItems();
-        
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        
-        int i = 0;
-        for(Inventory inventory : this.active_inventories){
-            jComboBoxProductsInventoryName.insertItemAt(inventory.getInventoryName(), i);
-            i++;
-        }
     }//GEN-LAST:event_jButtonProductsMouseClicked
 
     private void jButtonAccountsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAccountsMouseClicked
+        AccountView av = new AccountView(this.account, this.company);
         jPanelContent.removeAll();
-        jPanelContent.add(jPanelAccounts);
+        jPanelContent.add(av.getAccountView());
         jPanelContent.repaint();
         jPanelContent.revalidate();
     }//GEN-LAST:event_jButtonAccountsMouseClicked
@@ -1258,150 +557,6 @@ public class DashboardView extends javax.swing.JFrame {
         jPanelContent.repaint();
         jPanelContent.revalidate();
     }//GEN-LAST:event_jButtonSettingsMouseClicked
-
-    private void jButtonAddProductMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddProductMouseClicked
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelModalAddProduct);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-        jComboBoxAddProductInventory.removeAllItems();
-        
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        
-        int i = 0;
-        for(Inventory inventory : this.inventories){
-            jComboBoxAddProductInventory.insertItemAt(inventory.getInventoryName(), i);
-            i++;
-        }
-    }//GEN-LAST:event_jButtonAddProductMouseClicked
-
-    private void jTextFieldAddProductNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddProductNameActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldAddProductNameActionPerformed
-
-    private void jComboBoxAddProductInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAddProductInventoryActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxAddProductInventoryActionPerformed
-
-    private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelProducts);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-    }//GEN-LAST:event_jButton7MouseClicked
-
-    private void jButtonAddProductActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddProductActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButtonAddProductActionPerformed
-
-    private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelInventory);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-    }//GEN-LAST:event_jButton9MouseClicked
-
-    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelModalAddInventory);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-    }//GEN-LAST:event_jButton1MouseClicked
-
-    private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        String name = jTextFieldInventoryName.getText();
-        String description = jTextAreaInventoryDescription.getText();
-        
-        ic.createInventory(this.company.getCompanyID(), name, description);
-        
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelInventory);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-    }//GEN-LAST:event_jButton8MouseClicked
-
-    private void jButtonRefreshInventoryMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRefreshInventoryMouseClicked
-        this.refresh();
-    }//GEN-LAST:event_jButtonRefreshInventoryMouseClicked
-
-    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        int rowCount = model.getRowCount();
-        
-        for(int i = 0; i < rowCount; i++){
-            Boolean isCheck = (Boolean) model.getValueAt(i, 4);
-            if(isCheck != null && isCheck){
-                int inventory_ID = (int) model.getValueAt(i, 0);
-                ic.updateInventory(inventory_ID, "Inactive");
-            }
-        }
-        this.refresh();
-    }//GEN-LAST:event_jButton2MouseClicked
-
-    private void jButton10MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton10MouseClicked
-        DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        int rowCount = model.getRowCount();
-        
-        for(int i = 0; i < rowCount; i++){
-            Boolean isCheck = (Boolean) model.getValueAt(i, 4);
-            if(isCheck != null && isCheck){
-                int inventory_ID = (int) model.getValueAt(i, 0);
-                ic.updateInventory(inventory_ID, "Active");
-            }
-        }
-        this.refresh();
-    }//GEN-LAST:event_jButton10MouseClicked
-
-    private void jButton11MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton11MouseClicked
-        DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        int rowCount = model.getRowCount();
-        
-        for(int i = 0; i < rowCount; i++){
-            Boolean isCheck = (Boolean) model.getValueAt(i, 4);
-            if(isCheck != null && isCheck){
-                int inventory_ID = (int) model.getValueAt(i, 0);
-                String inventory_name = (String) model.getValueAt(i, 1);
-                String description = (String) model.getValueAt(i, 2);
-                
-                jLabelEditInventoryID.setText(String.valueOf(inventory_ID));
-                jTextFieldEditInventoryName.setText(inventory_name);
-                jTextAreaEditInventoryDescription.setText(description);
-                
-                jPanelContent.removeAll();
-                jPanelContent.add(jPanelModalEditInventory);
-                jPanelContent.repaint();
-                jPanelContent.revalidate();
-            }
-        }
-    }//GEN-LAST:event_jButton11MouseClicked
-
-    private void jButtonSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSaveMouseClicked
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        int inventory_ID = Integer.parseInt(jLabelEditInventoryID.getText());
-        String name = jTextFieldEditInventoryName.getText();
-        String description = jTextAreaEditInventoryDescription.getText();
-        
-        ic.updateInventory(inventory_ID, name, description);
-        this.refresh();
-        
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelInventory);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-    }//GEN-LAST:event_jButtonSaveMouseClicked
-
-    private void jButtonCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCloseMouseClicked
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelInventory);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-        
-        this.refresh();
-    }//GEN-LAST:event_jButtonCloseMouseClicked
 
     private void jTextFieldSettingsFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSettingsFirstNameActionPerformed
         // TODO add your handling code here:
@@ -1430,81 +585,6 @@ public class DashboardView extends javax.swing.JFrame {
     private void jButtonProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProductsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonProductsActionPerformed
-
-    private void jButtonFilterProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFilterProductsMouseClicked
-        int selected_index = jComboBoxProductsInventoryName.getSelectedIndex();
-        int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
-        if(inventory_ID != -1){
-            
-            ProductController pc = new ProductController(inventory_ID);
-            ArrayList<Product> products = pc.getProducts();
-            DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
-            model.setRowCount(0);
-            
-            for(Product product : products){
-                
-                int product_ID = product.getProductID();
-                String product_name = product.getProductName();
-                String product_description = product.getProductDescription();
-                int quantity = product.getQuantity();
-                String status = product.getStatus();
-                
-                Object[] rowData = {product_ID, product_name, product_description, quantity, status, false, false};
-                
-                model.addRow(rowData);
-            }
-        }
-    }//GEN-LAST:event_jButtonFilterProductsMouseClicked
-
-    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
-        int selected_index = jComboBoxAddProductInventory.getSelectedIndex();
-        int inventory_ID = this.inventories.get(selected_index).getInventoryID();
-        ProductController pc = new ProductController();
-        String product_name = jTextFieldAddProductName.getText();
-        String product_description = jTextAreaAddProductDescription.getText();
-        int quantity = Integer.parseInt(jTextFieldAddProductQuantity.getText());
-        
-        pc.createProduct(inventory_ID, product_name, product_description, quantity);
-        
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelProducts);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-    }//GEN-LAST:event_jButton5MouseClicked
-
-    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
-        ProductController pc = new ProductController();
-        DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
-        int table_size = model.getRowCount();
-        
-        for(int i = 0; i < table_size; i++){
-            Boolean is_check = (Boolean) model.getValueAt(i, 5);
-            if(is_check != null && is_check){
-                int product_ID = (int) model.getValueAt(i, 0);
-                pc.updateProduct(product_ID, "Inactive");
-            }
-        }
-        this.refreshProducts();
-    }//GEN-LAST:event_jButton6MouseClicked
-
-    private void jButton13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton13MouseClicked
-        ProductController pc = new ProductController();
-        DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
-        int table_size = model.getRowCount();
-        
-        for(int i = 0; i < table_size; i++){
-            Boolean is_check = (Boolean) model.getValueAt(i, 5);
-            if(is_check != null && is_check){
-                int product_ID = (int) model.getValueAt(i, 0);
-                pc.updateProduct(product_ID, "Active");
-            }
-        }
-        this.refreshProducts();
-    }//GEN-LAST:event_jButton13MouseClicked
-
-    private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
-        this.refreshProducts();
-    }//GEN-LAST:event_jButton15MouseClicked
 
     /**
      * @param account
@@ -1559,53 +639,6 @@ public class DashboardView extends javax.swing.JFrame {
         this.loadSettings();
     }
     
-    public void loadDatabase(){
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        this.inventories = ic.getInventory();
-        this.active_inventories = ic.loadActiveInventories(this.company.getCompanyID());
-        DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
-        
-        for(Inventory inventory : this.inventories){
-            Object[] rowData = {inventory.getInventoryID(), inventory.getInventoryName(), inventory.getInventoryDescription(), inventory.getStatus(), false};
-            model.addRow(rowData);
-        }
-        jComboBoxAddProductInventory.setSelectedItem(this.active_inventories.get(0).getInventoryName());
-        jComboBoxProductsInventoryName.setSelectedItem(this.active_inventories.get(0).getInventoryName());
-    }
-    
-    public void refresh(){
-        InventoryController ic = new InventoryController(this.company.getCompanyID());
-        this.inventories = ic.getInventory();
-        this.active_inventories = ic.loadActiveInventories(this.company.getCompanyID());
-        DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
-        model.setNumRows(0);
-        
-        for(Inventory inventory : this.inventories){
-            Object[] rowData = {inventory.getInventoryID(), inventory.getInventoryName(), inventory.getInventoryDescription(), inventory.getStatus()};
-            model.addRow(rowData);
-        }
-    }
-    
-    public void refreshProducts(){
-        this.refresh();
-        jPanelContent.removeAll();
-        jPanelContent.add(jPanelProducts);
-        jPanelContent.repaint();
-        jPanelContent.revalidate();
-        int selected_index = jComboBoxProductsInventoryName.getSelectedIndex();
-        int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
-        ProductController pc = new ProductController(inventory_ID);
-        ArrayList<Product> products = pc.getProducts();
-        DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
-        
-        model.setRowCount(0);
-        
-        for(Product product : products){
-            Object[] row_data = {product.getProductID(), product.getProductName(), product.getProductDescription(), product.getQuantity(), product.getStatus()};
-            model.addRow(row_data);
-        }
-    }
-    
     public void loadSettings(){
         jTextFieldSettingsFirstName.setText(this.account.getFirstName());
         jTextFieldSettingsLastName.setText(this.account.getLastName());
@@ -1613,102 +646,44 @@ public class DashboardView extends javax.swing.JFrame {
         jLabelSettingsAccountID.setText(Integer.toString(this.account.getAccountID()));
         jLabelSettingsAccessLevel.setText(this.account.getAccessLevel());
         jLabelSettingsCompanyName.setText(this.company.getCompanyName());
+        jTextFieldSettingsEmail.setText(this.account.getEmail());
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JButton jButtonAccounts;
-    private javax.swing.JButton jButtonAddProduct;
-    private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonDashboard;
-    private javax.swing.JButton jButtonFilterProducts;
     private javax.swing.JButton jButtonInventory;
     private javax.swing.JButton jButtonLogout;
     private javax.swing.JButton jButtonProducts;
-    private javax.swing.JButton jButtonRefreshInventory;
     private javax.swing.JButton jButtonReports;
-    private javax.swing.JButton jButtonSave;
     private javax.swing.JButton jButtonSettings;
-    private javax.swing.JComboBox<String> jComboBoxAddProductInventory;
-    private javax.swing.JComboBox<String> jComboBoxProductsInventoryName;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel21;
-    private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel24;
     private javax.swing.JLabel jLabel25;
-    private javax.swing.JLabel jLabel26;
     private javax.swing.JLabel jLabel27;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel30;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAccountFirstName;
-    private javax.swing.JLabel jLabelEditInventoryID;
+    private javax.swing.JLabel jLabelHour;
     private javax.swing.JLabel jLabelSettingsAccessLevel;
     private javax.swing.JLabel jLabelSettingsAccountID;
     private javax.swing.JLabel jLabelSettingsCompanyName;
     private javax.swing.JLabel jLabelSettingsUsername;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanelAccounts;
+    private javax.swing.JPanel jPanelClockContainer;
     private javax.swing.JPanel jPanelContent;
     private javax.swing.JPanel jPanelDashboard;
-    private javax.swing.JPanel jPanelInventory;
-    private javax.swing.JPanel jPanelModalAddInventory;
-    private javax.swing.JPanel jPanelModalAddProduct;
-    private javax.swing.JPanel jPanelModalEditInventory;
     private javax.swing.JPanel jPanelNavigation;
-    private javax.swing.JPanel jPanelProducts;
     private javax.swing.JPanel jPanelReports;
     private javax.swing.JPanel jPanelSettings;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTable jTableInventory;
-    private javax.swing.JTable jTableProducts;
-    private javax.swing.JTextArea jTextAreaAddProductDescription;
-    private javax.swing.JTextArea jTextAreaEditInventoryDescription;
-    private javax.swing.JTextArea jTextAreaInventoryDescription;
-    private javax.swing.JTextField jTextFieldAddProductName;
-    private javax.swing.JTextField jTextFieldAddProductQuantity;
-    private javax.swing.JTextField jTextFieldEditInventoryName;
-    private javax.swing.JTextField jTextFieldInventoryName;
     private javax.swing.JTextField jTextFieldSettingsConfirmPassword;
     private javax.swing.JTextField jTextFieldSettingsCurrentPassword;
     private javax.swing.JTextField jTextFieldSettingsEmail;

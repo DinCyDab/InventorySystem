@@ -8,8 +8,10 @@ public class Account {
     private String username;
     private String password;
     private String access_level;
+    private String status;
+    private String email;
     
-    public Account(int a_ID, int c_ID, String f_name, String l_name, String username, String password, String access_level){
+    public Account(int a_ID, int c_ID, String f_name, String l_name, String username, String password, String access_level, String status, String email){
         this.account_ID = a_ID;
         this.company_ID = c_ID;
         this.first_name = f_name;
@@ -17,6 +19,8 @@ public class Account {
         this.username = username;
         this.password = password;
         this.access_level = access_level;
+        this.status = status;
+        this.email = email;
     }
     public int getAccountID(){
         return this.account_ID;
@@ -39,6 +43,12 @@ public class Account {
     public String getPassword(){
         return this.password;
     }
+    public String getStatus(){
+        return this.status;
+    }
+    public String getEmail(){
+        return this.email;
+    }
     public void setFirstName(String first_name){
         this.first_name = first_name;
     }
@@ -50,5 +60,11 @@ public class Account {
     }
     public void setAccessLevel(String access_level){
         this.access_level = access_level;
+    }
+    public void setStatus(String status){
+        this.status = status;
+    }
+    public void setString(String email){
+        this.email = email;
     }
 }

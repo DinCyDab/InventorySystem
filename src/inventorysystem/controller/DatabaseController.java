@@ -69,10 +69,12 @@ public class DatabaseController {
                 String usernamE = result.getString("username");
                 String passworD = result.getString("password");
                 String access_level = result.getString("access_level");
+                String status = result.getString("status");
+                String email = result.getString("email");
                 
                 System.out.println(account_ID);
 
-                account = new Account(account_ID, company_ID, first_name, last_name, usernamE, passworD, access_level);
+                account = new Account(account_ID, company_ID, first_name, last_name, usernamE, passworD, access_level, status, email);
             }
             
             conn.close();
@@ -81,6 +83,35 @@ public class DatabaseController {
             System.out.println("Connection Failed!");
         }
         return account;
+    }
+    public ArrayList<Account> loadAccountsQuery(String sql){
+        ArrayList<Account> accounts = new ArrayList<>();
+        try{
+            Connection conn = DriverManager.getConnection(this.url, this.username, this.password);
+            
+            ResultSet result = conn.createStatement().executeQuery(sql);
+            
+            while(result.next()){
+                Account account;
+                int a_ID = result.getInt("account_ID");
+                int c_ID = result.getInt("company_ID");
+                String first_name = result.getString("first_name");
+                String last_name = result.getString("last_name");
+                String usernamE = result.getString("username");
+                String passworD = result.getString("password");
+                String access_level = result.getString("access_level");
+                String status = result.getString("status");
+                String email = result.getString("email");
+                
+                account = new Account(a_ID, c_ID, first_name, last_name, usernamE, passworD, access_level, status, email);
+                
+                accounts.add(account);
+            }
+        }
+        catch(SQLException e){
+            
+        }
+        return accounts;
     }
     public ArrayList<Product> loadProductsQuery(String sql){
         ArrayList<Product> products = new ArrayList<>();

@@ -44,6 +44,8 @@ public class LandingPage extends javax.swing.JFrame {
         jTextFieldRegisterUsername = new javax.swing.JTextField();
         jPasswordFieldRegisterPassword = new javax.swing.JPasswordField();
         jButtonNext = new javax.swing.JButton();
+        jLabel14 = new javax.swing.JLabel();
+        jTextFieldRegisterEmail = new javax.swing.JTextField();
         jPanelCompany = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -240,30 +242,39 @@ public class LandingPage extends javax.swing.JFrame {
             }
         });
 
+        jLabel14.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel14.setText("Email");
+
+        jTextFieldRegisterEmail.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
+
         javax.swing.GroupLayout jPanelRegisterLayout = new javax.swing.GroupLayout(jPanelRegister);
         jPanelRegister.setLayout(jPanelRegisterLayout);
         jPanelRegisterLayout.setHorizontalGroup(
             jPanelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelRegisterLayout.createSequentialGroup()
                 .addGroup(jPanelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanelRegisterLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonNext))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelRegisterLayout.createSequentialGroup()
                         .addGap(138, 138, 138)
                         .addGroup(jPanelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel5)
-                            .addComponent(jLabel6))
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel14))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTextFieldFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
                             .addComponent(jTextFieldLastName)
                             .addComponent(jTextFieldRegisterUsername)
-                            .addComponent(jPasswordFieldRegisterPassword)))
+                            .addComponent(jPasswordFieldRegisterPassword)
+                            .addComponent(jTextFieldRegisterEmail)))
                     .addGroup(jPanelRegisterLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButtonNext)
-                            .addComponent(jLabel7))))
+                        .addComponent(jLabel7)))
                 .addGap(198, 198, 198))
         );
         jPanelRegisterLayout.setVerticalGroup(
@@ -288,8 +299,12 @@ public class LandingPage extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jPasswordFieldRegisterPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addGroup(jPanelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(jTextFieldRegisterEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(19, 19, 19)
                 .addComponent(jButtonNext)
-                .addContainerGap(135, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
 
         jPanelCompany.setBackground(new java.awt.Color(0, 204, 204));
@@ -551,19 +566,22 @@ public class LandingPage extends javax.swing.JFrame {
         String last_name = jTextFieldLastName.getText();
         String username = jTextFieldRegisterUsername.getText();
         String password = jPasswordFieldRegisterPassword.getText();
+        String email = jTextFieldRegisterEmail.getText();
         
-        int isCreated = ac.createAccount(company_ID, first_name, last_name, username, password, "Owner");
+        int isCreated = ac.createAccount(company_ID, first_name, last_name, username, password, "Owner", email);
         if(isCreated != 0){
             jPanelContent.removeAll();
             jPanelContent.add(jPanelModal);
             jPanelContent.repaint();
             jPanelContent.revalidate();
+            
             jTextFieldCompanyName.setText("");
             jTextAreaCompanyDescription.setText("");
             jTextFieldFirstName.setText("");
             jTextFieldLastName.setText("");
             jTextFieldRegisterUsername.setText("");
             jPasswordFieldRegisterPassword.setText("");
+            jTextFieldRegisterEmail.setText("");
         }
     }//GEN-LAST:event_jButtonRegisterMouseClicked
 
@@ -598,7 +616,6 @@ public class LandingPage extends javax.swing.JFrame {
             DashboardView dv = new DashboardView();
             dv.setVisible(true);
             dv.doThis(account, company);
-            dv.loadDatabase();
             this.setVisible(false);
         }
     }//GEN-LAST:event_jButtonLoginMouseClicked
@@ -660,6 +677,7 @@ public class LandingPage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -682,6 +700,7 @@ public class LandingPage extends javax.swing.JFrame {
     private javax.swing.JTextField jTextFieldFirstName;
     private javax.swing.JTextField jTextFieldLastName;
     private javax.swing.JTextField jTextFieldLoginUsername;
+    private javax.swing.JTextField jTextFieldRegisterEmail;
     private javax.swing.JTextField jTextFieldRegisterUsername;
     // End of variables declaration//GEN-END:variables
 }
