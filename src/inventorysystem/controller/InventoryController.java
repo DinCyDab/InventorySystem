@@ -43,6 +43,15 @@ public class InventoryController {
         this.inventories = this.dc.loadInventoryQuery(sql);
     }
     
+    public ArrayList<Inventory> loadActiveInventories(int company_ID){
+        ArrayList<Inventory> active_inventories;
+        String sql = "SELECT * FROM Inventory "
+                + "WHERE company_ID = '"+company_ID+"' "
+                + "AND status = 'Active'";
+        active_inventories = this.dc.loadInventoryQuery(sql);
+        return active_inventories;
+    }
+    
     public ArrayList<Inventory> getInventory(){
         return this.inventories;
     }

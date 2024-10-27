@@ -18,6 +18,7 @@ public class DashboardView extends javax.swing.JFrame {
     public Account account;
     public Company company;
     public ArrayList<Inventory> inventories;
+    public ArrayList<Inventory> active_inventories;
     public DashboardView() {
         initComponents();
     }
@@ -57,7 +58,15 @@ public class DashboardView extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jButtonAddProduct = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
+        jButton13 = new javax.swing.JButton();
+        jButton14 = new javax.swing.JButton();
+        jButton15 = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
+        jLabel29 = new javax.swing.JLabel();
+        jComboBoxProductsInventoryName = new javax.swing.JComboBox<>();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jTableProducts = new javax.swing.JTable();
+        jButtonFilterProducts = new javax.swing.JButton();
         jPanelAccounts = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
@@ -67,19 +76,41 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jPanelSettings = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel19 = new javax.swing.JLabel();
+        jTextFieldSettingsFirstName = new javax.swing.JTextField();
+        jLabel20 = new javax.swing.JLabel();
+        jTextFieldSettingsLastName = new javax.swing.JTextField();
+        jLabel21 = new javax.swing.JLabel();
+        jTextFieldSettingsEmail = new javax.swing.JTextField();
+        jLabel22 = new javax.swing.JLabel();
+        jLabelSettingsUsername = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jTextFieldSettingsCurrentPassword = new javax.swing.JTextField();
+        jTextFieldSettingsNewPassword = new javax.swing.JTextField();
+        jTextFieldSettingsConfirmPassword = new javax.swing.JTextField();
+        jLabel26 = new javax.swing.JLabel();
+        jLabelSettingsAccountID = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
+        jLabelSettingsAccessLevel = new javax.swing.JLabel();
+        jLabel28 = new javax.swing.JLabel();
+        jLabelSettingsCompanyName = new javax.swing.JLabel();
+        jButton12 = new javax.swing.JButton();
         jPanelModalAddProduct = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldAddProductName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        jTextAreaAddProductDescription = new javax.swing.JTextArea();
         jLabel11 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        jTextFieldAddProductQuantity = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
-        jComboBoxProductInventory = new javax.swing.JComboBox<>();
+        jComboBoxAddProductInventory = new javax.swing.JComboBox<>();
         jPanelModalAddInventory = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -123,6 +154,11 @@ public class DashboardView extends javax.swing.JFrame {
         jButtonProducts.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButtonProductsMouseClicked(evt);
+            }
+        });
+        jButtonProducts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonProductsActionPerformed(evt);
             }
         });
 
@@ -296,14 +332,14 @@ public class DashboardView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Inventory ID", "Name", "Description", "Status", "Set Status", "Edit"
+                "ID", "Name", "Description", "Status", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true
+                false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -316,9 +352,9 @@ public class DashboardView extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(jTableInventory);
         if (jTableInventory.getColumnModel().getColumnCount() > 0) {
+            jTableInventory.getColumnModel().getColumn(0).setPreferredWidth(5);
             jTableInventory.getColumnModel().getColumn(3).setPreferredWidth(30);
-            jTableInventory.getColumnModel().getColumn(4).setPreferredWidth(30);
-            jTableInventory.getColumnModel().getColumn(5).setPreferredWidth(10);
+            jTableInventory.getColumnModel().getColumn(4).setPreferredWidth(10);
         }
 
         javax.swing.GroupLayout jPanelInventoryLayout = new javax.swing.GroupLayout(jPanelInventory);
@@ -342,8 +378,8 @@ public class DashboardView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanelProducts.setBackground(new java.awt.Color(0, 204, 204));
@@ -360,7 +396,28 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
 
-        jButton6.setText("Remove");
+        jButton6.setText("Set as Inactive");
+        jButton6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton6MouseClicked(evt);
+            }
+        });
+
+        jButton13.setText("Set as Active");
+        jButton13.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton13MouseClicked(evt);
+            }
+        });
+
+        jButton14.setText("Edit");
+
+        jButton15.setText("Refresh");
+        jButton15.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton15MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -371,7 +428,13 @@ public class DashboardView extends javax.swing.JFrame {
                 .addComponent(jButtonAddProduct)
                 .addGap(18, 18, 18)
                 .addComponent(jButton6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton13)
+                .addGap(18, 18, 18)
+                .addComponent(jButton14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
+                .addComponent(jButton15)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -379,7 +442,10 @@ public class DashboardView extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAddProduct)
-                    .addComponent(jButton6))
+                    .addComponent(jButton6)
+                    .addComponent(jButton13)
+                    .addComponent(jButton14)
+                    .addComponent(jButton15))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -387,15 +453,66 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Products");
 
+        jLabel29.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel29.setText("Inventory Name:");
+
+        jComboBoxProductsInventoryName.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jTableProducts.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID", "Product Name", "Description", "Quantity", "Status", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane5.setViewportView(jTableProducts);
+        if (jTableProducts.getColumnModel().getColumnCount() > 0) {
+            jTableProducts.getColumnModel().getColumn(5).setMaxWidth(15);
+        }
+
+        jButtonFilterProducts.setText("Filter");
+        jButtonFilterProducts.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonFilterProductsMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanelProductsLayout = new javax.swing.GroupLayout(jPanelProducts);
         jPanelProducts.setLayout(jPanelProductsLayout);
         jPanelProductsLayout.setHorizontalGroup(
             jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanelProductsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel8)
-                .addContainerGap(450, Short.MAX_VALUE))
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane5)
+                    .addGroup(jPanelProductsLayout.createSequentialGroup()
+                        .addGroup(jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addGroup(jPanelProductsLayout.createSequentialGroup()
+                                .addComponent(jLabel29)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxProductsInventoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonFilterProducts)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanelProductsLayout.setVerticalGroup(
             jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -403,7 +520,14 @@ public class DashboardView extends javax.swing.JFrame {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8)
-                .addContainerGap(287, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelProductsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel29)
+                    .addComponent(jComboBoxProductsInventoryName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonFilterProducts))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 294, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jPanelAccounts.setBackground(new java.awt.Color(0, 204, 204));
@@ -485,21 +609,209 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Settings");
 
+        jPanel4.setBackground(new java.awt.Color(0, 102, 102));
+
+        jLabel19.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel19.setText("First Name:");
+
+        jTextFieldSettingsFirstName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsFirstNameActionPerformed(evt);
+            }
+        });
+
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("Last Name:");
+
+        jTextFieldSettingsLastName.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsLastNameActionPerformed(evt);
+            }
+        });
+
+        jLabel21.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel21.setText("Email:");
+
+        jTextFieldSettingsEmail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsEmailActionPerformed(evt);
+            }
+        });
+
+        jLabel22.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel22.setText("Username:");
+
+        jLabelSettingsUsername.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsUsername.setText("N/A");
+
+        jLabel23.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel23.setText("Current Password:");
+
+        jLabel24.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel24.setText("New Password:");
+
+        jLabel25.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel25.setText("Confirm Password:");
+
+        jTextFieldSettingsCurrentPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsCurrentPasswordActionPerformed(evt);
+            }
+        });
+
+        jTextFieldSettingsNewPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsNewPasswordActionPerformed(evt);
+            }
+        });
+
+        jTextFieldSettingsConfirmPassword.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldSettingsConfirmPasswordActionPerformed(evt);
+            }
+        });
+
+        jLabel26.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel26.setText("Account ID:");
+
+        jLabelSettingsAccountID.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsAccountID.setText("N/A");
+
+        jLabel27.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel27.setText("Access Level:");
+
+        jLabelSettingsAccessLevel.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsAccessLevel.setText("N/A");
+
+        jLabel28.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel28.setText("Company:");
+
+        jLabelSettingsCompanyName.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelSettingsCompanyName.setText("N/A");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel25)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel23)
+                                .addGap(24, 24, 24)
+                                .addComponent(jTextFieldSettingsCurrentPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLabel24)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldSettingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldSettingsConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                            .addComponent(jLabel21)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jTextFieldSettingsEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel4Layout.createSequentialGroup()
+                                            .addComponent(jLabel19)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                                                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                        .addComponent(jLabelSettingsUsername)
+                                                        .addComponent(jLabelSettingsAccessLevel))
+                                                    .addGap(78, 78, 78))
+                                                .addComponent(jTextFieldSettingsFirstName, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addGap(12, 12, 12))
+                                .addGroup(jPanel4Layout.createSequentialGroup()
+                                    .addComponent(jLabel22)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(jLabel27)
+                                .addGap(164, 164, 164)))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel26)
+                            .addComponent(jLabel20)
+                            .addComponent(jLabel28))
+                        .addGap(47, 47, 47)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabelSettingsCompanyName)
+                            .addComponent(jLabelSettingsAccountID)
+                            .addComponent(jTextFieldSettingsLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(14, 14, 14))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel22)
+                    .addComponent(jLabelSettingsUsername)
+                    .addComponent(jLabel26)
+                    .addComponent(jLabelSettingsAccountID))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel27)
+                    .addComponent(jLabelSettingsAccessLevel)
+                    .addComponent(jLabel28)
+                    .addComponent(jLabelSettingsCompanyName))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel19)
+                    .addComponent(jTextFieldSettingsFirstName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextFieldSettingsLastName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel20))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel21)
+                    .addComponent(jTextFieldSettingsEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel23)
+                    .addComponent(jTextFieldSettingsCurrentPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel24)
+                    .addComponent(jTextFieldSettingsNewPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel25)
+                    .addComponent(jTextFieldSettingsConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54))
+        );
+
+        jButton12.setText("Save Changes");
+
         javax.swing.GroupLayout jPanelSettingsLayout = new javax.swing.GroupLayout(jPanelSettings);
         jPanelSettings.setLayout(jPanelSettingsLayout);
         jPanelSettingsLayout.setHorizontalGroup(
             jPanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSettingsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel6)
-                .addContainerGap(456, Short.MAX_VALUE))
+                .addGroup(jPanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelSettingsLayout.createSequentialGroup()
+                        .addComponent(jLabel6)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelSettingsLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton12)))
+                .addContainerGap())
         );
         jPanelSettingsLayout.setVerticalGroup(
             jPanelSettingsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelSettingsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel6)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addComponent(jButton12)
+                .addContainerGap())
         );
 
         jPanelModalAddProduct.setBackground(new java.awt.Color(0, 102, 102));
@@ -517,20 +829,25 @@ public class DashboardView extends javax.swing.JFrame {
         jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Product Description:");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        jTextFieldAddProductName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                jTextFieldAddProductNameActionPerformed(evt);
             }
         });
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        jTextAreaAddProductDescription.setColumns(20);
+        jTextAreaAddProductDescription.setRows(5);
+        jScrollPane1.setViewportView(jTextAreaAddProductDescription);
 
         jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Quantity");
 
         jButton5.setText("Add");
+        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton5MouseClicked(evt);
+            }
+        });
 
         jButton7.setText("Close");
         jButton7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -539,10 +856,10 @@ public class DashboardView extends javax.swing.JFrame {
             }
         });
 
-        jComboBoxProductInventory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBoxProductInventory.addActionListener(new java.awt.event.ActionListener() {
+        jComboBoxAddProductInventory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxAddProductInventory.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxProductInventoryActionPerformed(evt);
+                jComboBoxAddProductInventoryActionPerformed(evt);
             }
         });
 
@@ -564,13 +881,13 @@ public class DashboardView extends javax.swing.JFrame {
                                     .addGroup(jPanelModalAddProductLayout.createSequentialGroup()
                                         .addGap(30, 30, 30)
                                         .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField2)
+                                            .addComponent(jTextFieldAddProductQuantity)
                                             .addComponent(jScrollPane1)))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddProductLayout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jComboBoxProductInventory, 0, 234, Short.MAX_VALUE)
-                                            .addComponent(jTextField1)))))
+                                            .addComponent(jComboBoxAddProductInventory, 0, 234, Short.MAX_VALUE)
+                                            .addComponent(jTextFieldAddProductName)))))
                             .addComponent(jLabel11))
                         .addContainerGap(68, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddProductLayout.createSequentialGroup()
@@ -591,11 +908,11 @@ public class DashboardView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jComboBoxProductInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboBoxAddProductInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldAddProductName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
@@ -603,7 +920,7 @@ public class DashboardView extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel11)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldAddProductQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
@@ -748,9 +1065,7 @@ public class DashboardView extends javax.swing.JFrame {
                                     .addComponent(jLabel18))
                                 .addGap(47, 47, 47)
                                 .addGroup(jPanelModalEditInventoryLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanelModalEditInventoryLayout.createSequentialGroup()
-                                        .addComponent(jLabelEditInventoryID)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(jLabelEditInventoryID)
                                     .addComponent(jTextFieldEditInventoryName))))
                         .addGap(0, 66, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -911,6 +1226,16 @@ public class DashboardView extends javax.swing.JFrame {
         jPanelContent.add(jPanelProducts);
         jPanelContent.repaint();
         jPanelContent.revalidate();
+        
+        jComboBoxProductsInventoryName.removeAllItems();
+        
+        InventoryController ic = new InventoryController(this.company.getCompanyID());
+        
+        int i = 0;
+        for(Inventory inventory : this.active_inventories){
+            jComboBoxProductsInventoryName.insertItemAt(inventory.getInventoryName(), i);
+            i++;
+        }
     }//GEN-LAST:event_jButtonProductsMouseClicked
 
     private void jButtonAccountsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAccountsMouseClicked
@@ -939,24 +1264,24 @@ public class DashboardView extends javax.swing.JFrame {
         jPanelContent.add(jPanelModalAddProduct);
         jPanelContent.repaint();
         jPanelContent.revalidate();
-        jComboBoxProductInventory.removeAllItems();
+        jComboBoxAddProductInventory.removeAllItems();
         
         InventoryController ic = new InventoryController(this.company.getCompanyID());
         
         int i = 0;
         for(Inventory inventory : this.inventories){
-            jComboBoxProductInventory.insertItemAt(inventory.getInventoryName(), i);
+            jComboBoxAddProductInventory.insertItemAt(inventory.getInventoryName(), i);
             i++;
         }
     }//GEN-LAST:event_jButtonAddProductMouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void jTextFieldAddProductNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddProductNameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_jTextFieldAddProductNameActionPerformed
 
-    private void jComboBoxProductInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxProductInventoryActionPerformed
+    private void jComboBoxAddProductInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAddProductInventoryActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBoxProductInventoryActionPerformed
+    }//GEN-LAST:event_jComboBoxAddProductInventoryActionPerformed
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
         jPanelContent.removeAll();
@@ -1036,7 +1361,7 @@ public class DashboardView extends javax.swing.JFrame {
         int rowCount = model.getRowCount();
         
         for(int i = 0; i < rowCount; i++){
-            Boolean isCheck = (Boolean) model.getValueAt(i, 5);
+            Boolean isCheck = (Boolean) model.getValueAt(i, 4);
             if(isCheck != null && isCheck){
                 int inventory_ID = (int) model.getValueAt(i, 0);
                 String inventory_name = (String) model.getValueAt(i, 1);
@@ -1077,6 +1402,109 @@ public class DashboardView extends javax.swing.JFrame {
         
         this.refresh();
     }//GEN-LAST:event_jButtonCloseMouseClicked
+
+    private void jTextFieldSettingsFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSettingsFirstNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSettingsFirstNameActionPerformed
+
+    private void jTextFieldSettingsLastNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSettingsLastNameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSettingsLastNameActionPerformed
+
+    private void jTextFieldSettingsEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSettingsEmailActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSettingsEmailActionPerformed
+
+    private void jTextFieldSettingsCurrentPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSettingsCurrentPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSettingsCurrentPasswordActionPerformed
+
+    private void jTextFieldSettingsNewPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSettingsNewPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSettingsNewPasswordActionPerformed
+
+    private void jTextFieldSettingsConfirmPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldSettingsConfirmPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldSettingsConfirmPasswordActionPerformed
+
+    private void jButtonProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProductsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonProductsActionPerformed
+
+    private void jButtonFilterProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFilterProductsMouseClicked
+        int selected_index = jComboBoxProductsInventoryName.getSelectedIndex();
+        int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
+        if(inventory_ID != -1){
+            
+            ProductController pc = new ProductController(inventory_ID);
+            ArrayList<Product> products = pc.getProducts();
+            DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
+            model.setRowCount(0);
+            
+            for(Product product : products){
+                
+                int product_ID = product.getProductID();
+                String product_name = product.getProductName();
+                String product_description = product.getProductDescription();
+                int quantity = product.getQuantity();
+                String status = product.getStatus();
+                
+                Object[] rowData = {product_ID, product_name, product_description, quantity, status, false, false};
+                
+                model.addRow(rowData);
+            }
+        }
+    }//GEN-LAST:event_jButtonFilterProductsMouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        int selected_index = jComboBoxAddProductInventory.getSelectedIndex();
+        int inventory_ID = this.inventories.get(selected_index).getInventoryID();
+        ProductController pc = new ProductController();
+        String product_name = jTextFieldAddProductName.getText();
+        String product_description = jTextAreaAddProductDescription.getText();
+        int quantity = Integer.parseInt(jTextFieldAddProductQuantity.getText());
+        
+        pc.createProduct(inventory_ID, product_name, product_description, quantity);
+        
+        jPanelContent.removeAll();
+        jPanelContent.add(jPanelProducts);
+        jPanelContent.repaint();
+        jPanelContent.revalidate();
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void jButton6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton6MouseClicked
+        ProductController pc = new ProductController();
+        DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
+        int table_size = model.getRowCount();
+        
+        for(int i = 0; i < table_size; i++){
+            Boolean is_check = (Boolean) model.getValueAt(i, 5);
+            if(is_check != null && is_check){
+                int product_ID = (int) model.getValueAt(i, 0);
+                pc.updateProduct(product_ID, "Inactive");
+            }
+        }
+        this.refreshProducts();
+    }//GEN-LAST:event_jButton6MouseClicked
+
+    private void jButton13MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton13MouseClicked
+        ProductController pc = new ProductController();
+        DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
+        int table_size = model.getRowCount();
+        
+        for(int i = 0; i < table_size; i++){
+            Boolean is_check = (Boolean) model.getValueAt(i, 5);
+            if(is_check != null && is_check){
+                int product_ID = (int) model.getValueAt(i, 0);
+                pc.updateProduct(product_ID, "Active");
+            }
+        }
+        this.refreshProducts();
+    }//GEN-LAST:event_jButton13MouseClicked
+
+    private void jButton15MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton15MouseClicked
+        this.refreshProducts();
+    }//GEN-LAST:event_jButton15MouseClicked
 
     /**
      * @param account
@@ -1125,24 +1553,30 @@ public class DashboardView extends javax.swing.JFrame {
         
         this.account = account;
         this.company = company;
+        
         jLabelAccountFirstName.setText("Welcome Back " + this.account.getFirstName() + "!");
         
+        this.loadSettings();
     }
     
     public void loadDatabase(){
         InventoryController ic = new InventoryController(this.company.getCompanyID());
         this.inventories = ic.getInventory();
+        this.active_inventories = ic.loadActiveInventories(this.company.getCompanyID());
         DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
         
         for(Inventory inventory : this.inventories){
             Object[] rowData = {inventory.getInventoryID(), inventory.getInventoryName(), inventory.getInventoryDescription(), inventory.getStatus(), false};
             model.addRow(rowData);
         }
+        jComboBoxAddProductInventory.setSelectedItem(this.active_inventories.get(0).getInventoryName());
+        jComboBoxProductsInventoryName.setSelectedItem(this.active_inventories.get(0).getInventoryName());
     }
     
     public void refresh(){
         InventoryController ic = new InventoryController(this.company.getCompanyID());
         this.inventories = ic.getInventory();
+        this.active_inventories = ic.loadActiveInventories(this.company.getCompanyID());
         DefaultTableModel model = (DefaultTableModel) jTableInventory.getModel();
         model.setNumRows(0);
         
@@ -1151,11 +1585,44 @@ public class DashboardView extends javax.swing.JFrame {
             model.addRow(rowData);
         }
     }
+    
+    public void refreshProducts(){
+        this.refresh();
+        jPanelContent.removeAll();
+        jPanelContent.add(jPanelProducts);
+        jPanelContent.repaint();
+        jPanelContent.revalidate();
+        int selected_index = jComboBoxProductsInventoryName.getSelectedIndex();
+        int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
+        ProductController pc = new ProductController(inventory_ID);
+        ArrayList<Product> products = pc.getProducts();
+        DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
+        
+        model.setRowCount(0);
+        
+        for(Product product : products){
+            Object[] row_data = {product.getProductID(), product.getProductName(), product.getProductDescription(), product.getQuantity(), product.getStatus()};
+            model.addRow(row_data);
+        }
+    }
+    
+    public void loadSettings(){
+        jTextFieldSettingsFirstName.setText(this.account.getFirstName());
+        jTextFieldSettingsLastName.setText(this.account.getLastName());
+        jLabelSettingsUsername.setText(this.account.getUsername());
+        jLabelSettingsAccountID.setText(Integer.toString(this.account.getAccountID()));
+        jLabelSettingsAccessLevel.setText(this.account.getAccessLevel());
+        jLabelSettingsCompanyName.setText(this.company.getCompanyName());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton13;
+    private javax.swing.JButton jButton14;
+    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
@@ -1168,6 +1635,7 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAddProduct;
     private javax.swing.JButton jButtonClose;
     private javax.swing.JButton jButtonDashboard;
+    private javax.swing.JButton jButtonFilterProducts;
     private javax.swing.JButton jButtonInventory;
     private javax.swing.JButton jButtonLogout;
     private javax.swing.JButton jButtonProducts;
@@ -1175,7 +1643,8 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JButton jButtonReports;
     private javax.swing.JButton jButtonSave;
     private javax.swing.JButton jButtonSettings;
-    private javax.swing.JComboBox<String> jComboBoxProductInventory;
+    private javax.swing.JComboBox<String> jComboBoxAddProductInventory;
+    private javax.swing.JComboBox<String> jComboBoxProductsInventoryName;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1186,7 +1655,18 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel28;
+    private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -1196,9 +1676,14 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelAccountFirstName;
     private javax.swing.JLabel jLabelEditInventoryID;
+    private javax.swing.JLabel jLabelSettingsAccessLevel;
+    private javax.swing.JLabel jLabelSettingsAccountID;
+    private javax.swing.JLabel jLabelSettingsCompanyName;
+    private javax.swing.JLabel jLabelSettingsUsername;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanelAccounts;
     private javax.swing.JPanel jPanelContent;
     private javax.swing.JPanel jPanelDashboard;
@@ -1214,13 +1699,21 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTableInventory;
-    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTable jTableProducts;
+    private javax.swing.JTextArea jTextAreaAddProductDescription;
     private javax.swing.JTextArea jTextAreaEditInventoryDescription;
     private javax.swing.JTextArea jTextAreaInventoryDescription;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextFieldAddProductName;
+    private javax.swing.JTextField jTextFieldAddProductQuantity;
     private javax.swing.JTextField jTextFieldEditInventoryName;
     private javax.swing.JTextField jTextFieldInventoryName;
+    private javax.swing.JTextField jTextFieldSettingsConfirmPassword;
+    private javax.swing.JTextField jTextFieldSettingsCurrentPassword;
+    private javax.swing.JTextField jTextFieldSettingsEmail;
+    private javax.swing.JTextField jTextFieldSettingsFirstName;
+    private javax.swing.JTextField jTextFieldSettingsLastName;
+    private javax.swing.JTextField jTextFieldSettingsNewPassword;
     // End of variables declaration//GEN-END:variables
 }

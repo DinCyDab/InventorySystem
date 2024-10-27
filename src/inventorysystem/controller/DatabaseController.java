@@ -97,8 +97,9 @@ public class DatabaseController {
                 String product_name = result.getString("product_name");
                 String product_description = result.getString("product_description");
                 int quantity = result.getInt("quantity");
+                String status = result.getString("status");
                 
-                product = new Product(product_ID, inventory_ID, product_name, product_description, quantity);
+                product = new Product(product_ID, inventory_ID, product_name, product_description, quantity, status);
                 
                 products.add(product);
             }
@@ -106,6 +107,7 @@ public class DatabaseController {
         }
         catch(SQLException e){
             System.out.println("Connection Failed!");
+            e.printStackTrace();
         }
         
         return products;
