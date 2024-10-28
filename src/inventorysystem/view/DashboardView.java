@@ -204,16 +204,16 @@ public class DashboardView extends javax.swing.JFrame {
         jPanelClockContainerLayout.setHorizontalGroup(
             jPanelClockContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelClockContainerLayout.createSequentialGroup()
-                .addContainerGap(71, Short.MAX_VALUE)
+                .addContainerGap(72, Short.MAX_VALUE)
                 .addComponent(jLabelHour)
-                .addGap(65, 65, 65))
+                .addGap(64, 64, 64))
         );
         jPanelClockContainerLayout.setVerticalGroup(
             jPanelClockContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelClockContainerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabelHour)
-                .addContainerGap(42, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanelDashboardLayout = new javax.swing.GroupLayout(jPanelDashboard);
@@ -239,7 +239,7 @@ public class DashboardView extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jLabelAccountFirstName)))
-                .addContainerGap(362, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelReports.setBackground(new java.awt.Color(0, 204, 204));
@@ -545,8 +545,9 @@ public class DashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAccountsMouseClicked
 
     private void jButtonReportsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonReportsMouseClicked
+        ReportView rv = new ReportView(this.account, this.company);
         jPanelContent.removeAll();
-        jPanelContent.add(jPanelReports);
+        jPanelContent.add(rv.getReportView());
         jPanelContent.repaint();
         jPanelContent.revalidate();
     }//GEN-LAST:event_jButtonReportsMouseClicked

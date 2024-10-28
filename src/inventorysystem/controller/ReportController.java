@@ -22,12 +22,19 @@ public class ReportController {
         this.reports = this.dc.loadReportsQuery(sql);
     }
     
-    public void loadReportsAdmin(int account_ID, int company_ID){
-        String sql = "SELECT * FROM (Report"
-                + "INNER JOIN Account ON Report.account_ID = Account.account_ID) "
-                + "INNER JOIN Company ON Account.company_ID = Company.company_ID "
-                + "WHERE Account.company_ID = '"+company_ID+"' ";
-        this.reports = this.dc.loadReportsQuery(sql);
+    public ArrayList<Report> loadReportsAdmin(int account_ID, int company_ID){
+        ArrayList<Report> admin_reports;
+        String sql = "SELECT " +
+                    "	*, " +
+                    "    account.username AS 'username', " +
+                    "    product.product_name AS 'product_name' " +
+                    "FROM " +
+                    "	(report " +
+                    "INNER JOIN Account ON account.account_ID = report.account_ID) " +
+                    "INNER JOIN Product ON product.product_ID = report.product_ID " +
+                    "WHERE Account.company_ID = '"+company_ID+"'";
+        admin_reports = this.dc.loadReportsQuery(sql);
+        return admin_reports;
     }
     
     public ArrayList<Report> getReports(){

@@ -4,17 +4,119 @@
  */
 package inventorysystem.view;
 
+import inventorysystem.controller.*;
+import inventorysystem.model.*;
+import java.util.ArrayList;
+import java.util.Date;
+import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Cy
  */
 public class ReportView extends javax.swing.JFrame {
-
-    /**
-     * Creates new form ReportView
-     */
-    public ReportView() {
+    private ArrayList<Report> reports = new ArrayList<>();
+    private ArrayList<String> report_filter = new ArrayList<>();
+    private ArrayList<Product> products = new ArrayList<>();
+    private ArrayList<Inventory> inventories = new ArrayList<>();
+    private Account account;
+    private Company company;
+    public ReportView(Account account, Company company) {
         initComponents();
+        this.account = account;
+        this.company = company;
+        
+        this.loadReportFilter();
+        this.loadDatabase();
+        this.fillComboBox();
+        this.fillReportTable();
+        this.loadProductsDatabase();
+    }
+    
+    public JPanel getReportView(){
+        return jPanelReportContainer;
+    }
+    
+    public void loadReportFilter(){
+        jComboBoxReportFilter.removeAllItems();
+        
+        this.report_filter.add("All");
+        this.report_filter.add("Approved");
+        this.report_filter.add("Pending");
+        this.report_filter.add("Denied");
+        
+        int i = 0;
+        for(String report : this.report_filter){
+            jComboBoxReportFilter.insertItemAt(report, i);
+            i++;
+        }
+        
+        jComboBoxReportFilter.setSelectedIndex(0);
+    }
+    
+    public void loadDatabase(){
+        ReportController rc = new ReportController();
+        ProductController pc = new ProductController();
+        InventoryController ic = new InventoryController();
+        
+        this.reports = rc.loadReportsAdmin(this.account.getAccountID(), this.company.getCompanyID());
+        this.inventories = ic.getActiveInventories(this.company.getCompanyID());
+    }
+    
+    public void loadProductsDatabase(){
+        jComboBoxAddReportProducts.removeAllItems();
+        int selected_index = jComboBoxAddReportInventory.getSelectedIndex();
+        
+        if(selected_index != -1){
+            Inventory inventory = this.inventories.get(selected_index);
+        
+            ProductController pc = new ProductController();
+            this.products = pc.loadActiveProducts(inventory.getInventoryID());
+            
+            if(this.products.size() <= 0){
+                return;
+            }
+
+            int i = 0;
+            for(Product product : this.products){
+                jComboBoxAddReportProducts.insertItemAt(product.getProductName(), i);
+                i++;
+            }
+
+            jComboBoxAddReportProducts.setSelectedIndex(0);
+        }
+        
+    }
+    
+    public void fillComboBox(){
+        jComboBoxAddReportInventory.removeAllItems();
+      
+        int i = 0;
+        for(Inventory inventory : this.inventories){
+            jComboBoxAddReportInventory.insertItemAt(inventory.getInventoryName(), i);
+            i++;
+        }
+        
+        jComboBoxAddReportInventory.setSelectedIndex(0);
+    }
+    
+    public void fillReportTable(){
+        DefaultTableModel model = (DefaultTableModel) jTableReport.getModel();
+        model.setRowCount(0);
+        
+        for(Report report : this.reports){
+            int report_ID = report.getReportID();
+            String username = report.getUsername();
+            String product_name = report.getProductName();
+            Date report_date = report.getReportDate();
+            int quantity = report.getQuantity();
+            String status = report.getStatus();
+            
+            Object[] row_data = {report_ID, username, product_name, report_date, quantity, status, false};
+            
+            model.addRow(row_data);
+        }
     }
 
     /**
@@ -26,57 +128,351 @@ public class ReportView extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanelReportContainer = new javax.swing.JPanel();
+        jPanelReport = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButtonAddReport = new javax.swing.JButton();
+        jButtonApproveReport = new javax.swing.JButton();
+        jButtonDenyReport = new javax.swing.JButton();
+        jButtonEditReport = new javax.swing.JButton();
+        jButtonRefresh = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTableReport = new javax.swing.JTable();
+        jComboBoxReportFilter = new javax.swing.JComboBox<>();
+        jButtonFilter = new javax.swing.JButton();
+        jPanelModalAddReport = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jComboBoxAddReportProducts = new javax.swing.JComboBox<>();
+        jTextField1 = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        jComboBoxAddReportInventory = new javax.swing.JComboBox<>();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jPanelReportContainer.setBackground(new java.awt.Color(0, 204, 204));
+
+        jPanelReport.setBackground(new java.awt.Color(0, 204, 204));
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Reports");
+
+        jButtonAddReport.setText("Add");
+        jButtonAddReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAddReportMouseClicked(evt);
+            }
+        });
+
+        jButtonApproveReport.setText("Approve");
+
+        jButtonDenyReport.setText("Deny");
+
+        jButtonEditReport.setText("Edit");
+
+        jButtonRefresh.setText("Refresh");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButtonAddReport)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonApproveReport)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonDenyReport)
+                .addGap(18, 18, 18)
+                .addComponent(jButtonEditReport)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtonRefresh)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonAddReport)
+                    .addComponent(jButtonApproveReport)
+                    .addComponent(jButtonDenyReport)
+                    .addComponent(jButtonEditReport)
+                    .addComponent(jButtonRefresh))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jTableReport.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Report ID", "Account", "Product", "Report Date", "Quantity", "Status", ""
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, true
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTableReport);
+        if (jTableReport.getColumnModel().getColumnCount() > 0) {
+            jTableReport.getColumnModel().getColumn(6).setMaxWidth(15);
+        }
+
+        jComboBoxReportFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButtonFilter.setText("Filter");
+
+        javax.swing.GroupLayout jPanelReportLayout = new javax.swing.GroupLayout(jPanelReport);
+        jPanelReport.setLayout(jPanelReportLayout);
+        jPanelReportLayout.setHorizontalGroup(
+            jPanelReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelReportLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
+                    .addGroup(jPanelReportLayout.createSequentialGroup()
+                        .addGroup(jPanelReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addGroup(jPanelReportLayout.createSequentialGroup()
+                                .addComponent(jComboBoxReportFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonFilter)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelReportLayout.setVerticalGroup(
+            jPanelReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelReportLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboBoxReportFilter, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonFilter))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanelReportContainerLayout = new javax.swing.GroupLayout(jPanelReportContainer);
+        jPanelReportContainer.setLayout(jPanelReportContainerLayout);
+        jPanelReportContainerLayout.setHorizontalGroup(
+            jPanelReportContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(jPanelReportContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelReportContainerLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanelReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+        jPanelReportContainerLayout.setVerticalGroup(
+            jPanelReportContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 391, Short.MAX_VALUE)
+            .addGroup(jPanelReportContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanelReportContainerLayout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanelReport, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap()))
+        );
+
+        jPanelModalAddReport.setBackground(new java.awt.Color(0, 204, 204));
+
+        jLabel1.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("Add Report");
+
+        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel2.setText("Product Name:");
+
+        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel3.setText("Q:uantity:");
+
+        jComboBoxAddReportProducts.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jButton1.setText("Close");
+
+        jButton2.setText("Submit");
+
+        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel4.setText("Inventory Name:");
+
+        jComboBoxAddReportInventory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxAddReportInventory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxAddReportInventoryActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelModalAddReportLayout = new javax.swing.GroupLayout(jPanelModalAddReport);
+        jPanelModalAddReport.setLayout(jPanelModalAddReportLayout);
+        jPanelModalAddReportLayout.setHorizontalGroup(
+            jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelModalAddReportLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelModalAddReportLayout.createSequentialGroup()
+                        .addComponent(jButton1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2))
+                    .addGroup(jPanelModalAddReportLayout.createSequentialGroup()
+                        .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelModalAddReportLayout.createSequentialGroup()
+                                .addGap(146, 146, 146)
+                                .addComponent(jLabel1))
+                            .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanelModalAddReportLayout.createSequentialGroup()
+                                    .addComponent(jLabel4)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jComboBoxAddReportInventory, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(jPanelModalAddReportLayout.createSequentialGroup()
+                                    .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jLabel3))
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jComboBoxAddReportProducts, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addGap(0, 90, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelModalAddReportLayout.setVerticalGroup(
+            jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelModalAddReportLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jComboBoxAddReportInventory, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jComboBoxAddReportProducts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
+                .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(jPanelReportContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanelModalAddReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addComponent(jPanelReportContainer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, Short.MAX_VALUE)
+                    .addComponent(jPanelModalAddReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonAddReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAddReportMouseClicked
+        jPanelReportContainer.removeAll();
+        jPanelReportContainer.add(jPanelModalAddReport);
+        jPanelReportContainer.repaint();
+        jPanelReportContainer.revalidate();
+    }//GEN-LAST:event_jButtonAddReportMouseClicked
+
+    private void jComboBoxAddReportInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAddReportInventoryActionPerformed
+        this.loadProductsDatabase();
+    }//GEN-LAST:event_jComboBoxAddReportInventoryActionPerformed
+
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ReportView().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(ReportView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new ReportView().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAddReport;
+    private javax.swing.JButton jButtonApproveReport;
+    private javax.swing.JButton jButtonDenyReport;
+    private javax.swing.JButton jButtonEditReport;
+    private javax.swing.JButton jButtonFilter;
+    private javax.swing.JButton jButtonRefresh;
+    private javax.swing.JComboBox<String> jComboBoxAddReportInventory;
+    private javax.swing.JComboBox<String> jComboBoxAddReportProducts;
+    private javax.swing.JComboBox<String> jComboBoxReportFilter;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanelModalAddReport;
+    private javax.swing.JPanel jPanelReport;
+    private javax.swing.JPanel jPanelReportContainer;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTableReport;
+    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

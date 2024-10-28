@@ -44,6 +44,15 @@ public class ProductController {
         this.products = this.dc.loadProductsQuery(sql);
     }
     
+    public ArrayList<Product> loadActiveProducts(int inventory_ID){
+        ArrayList<Product> productS = null;
+        String sql = "SELECT * FROM Product "
+                + "WHERE inventory_ID = '"+inventory_ID+"' "
+                + "AND status = 'Active'";
+        productS = this.dc.loadProductsQuery(sql);
+        return productS;
+    }
+    
     public ArrayList<Product> getProducts(){
         return this.products;
     }

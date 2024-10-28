@@ -184,14 +184,14 @@ public class DatabaseController {
                 Report report;
                 
                 int report_ID = result.getInt("report_ID");
-                int account_ID = result.getInt("account_ID");
-                int product_ID = result.getInt("product_ID");
+                String usernamE = result.getString("username");
+                String product_name = result.getString("product_name");
                 Date report_date = result.getDate("report_date");
                 Time report_time = result.getTime("report_time");
-                int consumed = result.getInt("consumed");
+                int quantity = result.getInt("quantity");
                 String status = result.getString("status");
                 
-                report = new Report(report_ID, account_ID, product_ID, report_date, report_time, consumed, status);
+                report = new Report(report_ID, usernamE, product_name, report_date, report_time, quantity, status);
                 
                 reports.add(report);
             }
@@ -199,6 +199,7 @@ public class DatabaseController {
         }
         catch(SQLException e){
             System.out.println("Connection Failed!");
+            e.printStackTrace();
         }
         
         return reports;
