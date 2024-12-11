@@ -493,16 +493,18 @@ public class InventoryView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton11MouseClicked
 
     private void jButton8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton8MouseClicked
-//        InventoryController ic = new InventoryController(this.company.getCompanyID());
-//        String name = jTextFieldInventoryName.getText();
-//        String description = jTextAreaInventoryDescription.getText();
-//
-//        ic.createInventory(this.company.getCompanyID(), name, description);
-//
-//        jPanelContent.removeAll();
-//        jPanelContent.add(jPanelInventory);
-//        jPanelContent.repaint();
-//        jPanelContent.revalidate();
+        InventoryController ic = new InventoryController(this.company.getCompanyID());
+        String name = jTextFieldInventoryName.getText();
+        String description = jTextAreaInventoryDescription.getText();
+
+        ic.createInventory(this.company.getCompanyID(), name, description);
+
+        this.refresh();
+        
+        jPanelInventoryContainer.removeAll();
+        jPanelInventoryContainer.add(jPanelInventory);
+        jPanelInventoryContainer.repaint();
+        jPanelInventoryContainer.revalidate();
     }//GEN-LAST:event_jButton8MouseClicked
 
     private void jButton9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton9MouseClicked

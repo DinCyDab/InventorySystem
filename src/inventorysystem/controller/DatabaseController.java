@@ -81,6 +81,7 @@ public class DatabaseController {
         }
         catch(SQLException e){
             System.out.println("Connection Failed!");
+            e.printStackTrace();
         }
         return account;
     }
@@ -184,15 +185,18 @@ public class DatabaseController {
                 Report report;
                 
                 int report_ID = result.getInt("report_ID");
-                String usernamE = result.getString("username");
+//                String usernamE = result.getString("username");
                 String product_name = result.getString("product_name");
                 Date report_date = result.getDate("report_date");
                 Time report_time = result.getTime("report_time");
-                int quantity = result.getInt("quantity");
+                int quantity = result.getInt("consumed");
                 String status = result.getString("status");
                 
-                report = new Report(report_ID, usernamE, product_name, report_date, report_time, quantity, status);
-                
+                report = new Report(report_ID, product_name, report_date, report_time, quantity, status);
+                if (result.getString("username") != null) {
+                    String usernamE = result.getString("username");
+                    report.setUsername(usernamE);
+                }
                 reports.add(report);
             }
             

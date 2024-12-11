@@ -5,6 +5,10 @@ import inventorysystem.model.*;
 
 public class LandingPage extends javax.swing.JFrame {
     public static Account account;
+    public static boolean isLogin = false;
+    public static DashboardView dv;
+    public static DashboardStaffView dsv;
+    public static LandingPage ld;
 
     /**
      * Creates new form RegisterView
@@ -90,7 +94,7 @@ public class LandingPage extends javax.swing.JFrame {
         jPanelHeaderLayout.setHorizontalGroup(
             jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHeaderLayout.createSequentialGroup()
-                .addContainerGap(462, Short.MAX_VALUE)
+                .addContainerGap(471, Short.MAX_VALUE)
                 .addComponent(jButtonSignin)
                 .addGap(18, 18, 18)
                 .addComponent(Register)
@@ -113,15 +117,12 @@ public class LandingPage extends javax.swing.JFrame {
         jPanelLogin.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("USERNAME");
 
         jLabel2.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("PASSWORD");
 
         jLabel8.setFont(new java.awt.Font("Zelda Oracles", 0, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Sign in");
 
         jTextFieldLoginUsername.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
@@ -155,7 +156,7 @@ public class LandingPage extends javax.swing.JFrame {
                     .addGroup(jPanelLoginLayout.createSequentialGroup()
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(jPasswordFieldLoginPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 129, Short.MAX_VALUE))
+                        .addComponent(jPasswordFieldLoginPassword, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE))
                     .addGroup(jPanelLoginLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -192,23 +193,18 @@ public class LandingPage extends javax.swing.JFrame {
         jPanelRegister.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel3.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("First Name");
 
         jLabel4.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Last Name");
 
         jLabel5.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Username");
 
         jLabel6.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Password");
 
         jLabel7.setFont(new java.awt.Font("Zelda Oracles", 0, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Registration Form");
 
         jTextFieldFirstName.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
@@ -243,7 +239,6 @@ public class LandingPage extends javax.swing.JFrame {
         });
 
         jLabel14.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("Email");
 
         jTextFieldRegisterEmail.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
@@ -267,7 +262,7 @@ public class LandingPage extends javax.swing.JFrame {
                             .addComponent(jLabel14))
                         .addGap(18, 18, 18)
                         .addGroup(jPanelRegisterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldFirstName, javax.swing.GroupLayout.DEFAULT_SIZE, 221, Short.MAX_VALUE)
+                            .addComponent(jTextFieldFirstName)
                             .addComponent(jTextFieldLastName)
                             .addComponent(jTextFieldRegisterUsername)
                             .addComponent(jPasswordFieldRegisterPassword)
@@ -304,23 +299,20 @@ public class LandingPage extends javax.swing.JFrame {
                     .addComponent(jTextFieldRegisterEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(19, 19, 19)
                 .addComponent(jButtonNext)
-                .addContainerGap(96, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanelCompany.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel9.setFont(new java.awt.Font("Zelda Oracles", 0, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Company Information");
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
         jLabel10.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Company Name");
 
         jLabel11.setBackground(new java.awt.Color(0, 0, 0));
         jLabel11.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
         jLabel11.setText("Description");
 
         jTextFieldCompanyName.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
@@ -409,11 +401,9 @@ public class LandingPage extends javax.swing.JFrame {
         jPanelModal.setBackground(new java.awt.Color(0, 102, 102));
 
         jLabel12.setFont(new java.awt.Font("Zelda Oracles", 0, 24)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
         jLabel12.setText("SUCCESSFULLY");
 
         jLabel13.setFont(new java.awt.Font("Zelda Oracles", 0, 24)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("ACCOUNT CREATED");
 
         jButtonModalSignin.setFont(new java.awt.Font("Zelda Oracles", 0, 12)); // NOI18N
@@ -605,19 +595,29 @@ public class LandingPage extends javax.swing.JFrame {
         String password = jPasswordFieldLoginPassword.getText();
         
         AccountController ac = new AccountController();
-        boolean isLogin = ac.loadAccount(username, password);
-        if(isLogin){
+        LandingPage.isLogin = ac.loadAccount(username, password);
+        if(LandingPage.isLogin){
             Account account = ac.getAccount();
             CompanyController cc = new CompanyController(account.getCompanyID());
             Company company = cc.getCompany();
             
             LandingPage.account = ac.getAccount();
             
-            DashboardView dv = new DashboardView();
-            dv.setVisible(true);
-            dv.doThis(account, company);
+            if(LandingPage.account.getAccessLevel().equals("Admin") || 
+               LandingPage.account.getAccessLevel().equals("Owner")){
+                LandingPage.dv = new DashboardView();
+                dv.setVisible(true);
+                dv.doThis(account, company);
+            }
+            if(LandingPage.account.getAccessLevel().equals("Staff")){
+                LandingPage.dsv = new DashboardStaffView(account, company);
+                dsv.setVisible(true);
+//                dsv.doThis(account, company);
+            }
             this.setVisible(false);
         }
+        
+        jPasswordFieldLoginPassword.setText("");
     }//GEN-LAST:event_jButtonLoginMouseClicked
 
     /**
@@ -651,9 +651,9 @@ public class LandingPage extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                LandingPage ld = new LandingPage();
-                ld.setVisible(true);
-                ld.doThis();
+                LandingPage.ld = new LandingPage();
+                LandingPage.ld.setVisible(true);
+                LandingPage.ld.doThis();
             }
         });
     }

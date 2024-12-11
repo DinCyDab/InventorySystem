@@ -15,19 +15,16 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import javax.swing.Timer;
 
-
-/**
- *
- * @author Cy
- */
 public class DashboardView extends javax.swing.JFrame {
-    public Account account;
-    public Company company;
+    public static Account account;
+    public static Company company;
     public ArrayList<Inventory> inventories;
     public ArrayList<Inventory> active_inventories;
     public DashboardView() {
         initComponents();
         updateClock();
+        
+        
         
         Timer timer = new Timer(1000, e -> updateClock());
         timer.start();
@@ -63,8 +60,6 @@ public class DashboardView extends javax.swing.JFrame {
         jLabelAccountFirstName = new javax.swing.JLabel();
         jPanelClockContainer = new javax.swing.JPanel();
         jLabelHour = new javax.swing.JLabel();
-        jPanelReports = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
         jPanelSettings = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         jButton12 = new javax.swing.JButton();
@@ -128,6 +123,11 @@ public class DashboardView extends javax.swing.JFrame {
         });
 
         jButtonLogout.setText("Logout");
+        jButtonLogout.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonLogoutMouseClicked(evt);
+            }
+        });
 
         jButtonSettings.setText("Settings");
         jButtonSettings.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -187,10 +187,8 @@ public class DashboardView extends javax.swing.JFrame {
         jPanelDashboard.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Dashboard");
 
-        jLabelAccountFirstName.setForeground(new java.awt.Color(0, 0, 0));
         jLabelAccountFirstName.setText("Welcome Back <name>!");
 
         jPanelClockContainer.setBackground(new java.awt.Color(0, 102, 102));
@@ -239,36 +237,12 @@ public class DashboardView extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
                         .addComponent(jLabelAccountFirstName)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanelReports.setBackground(new java.awt.Color(0, 204, 204));
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setText("Reports");
-
-        javax.swing.GroupLayout jPanelReportsLayout = new javax.swing.GroupLayout(jPanelReports);
-        jPanelReports.setLayout(jPanelReportsLayout);
-        jPanelReportsLayout.setHorizontalGroup(
-            jPanelReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelReportsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(461, Short.MAX_VALUE))
-        );
-        jPanelReportsLayout.setVerticalGroup(
-            jPanelReportsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelReportsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(372, Short.MAX_VALUE))
         );
 
         jPanelSettings.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Settings");
 
         jButton12.setText("Save Changes");
@@ -396,7 +370,7 @@ public class DashboardView extends javax.swing.JFrame {
                         .addComponent(jLabel25)
                         .addGap(18, 18, 18)
                         .addComponent(jTextFieldSettingsConfirmPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(47, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -474,11 +448,6 @@ public class DashboardView extends javax.swing.JFrame {
                     .addContainerGap()
                     .addComponent(jPanelSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
         );
         jPanelContentLayout.setVerticalGroup(
             jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -487,11 +456,6 @@ public class DashboardView extends javax.swing.JFrame {
                 .addGroup(jPanelContentLayout.createSequentialGroup()
                     .addContainerGap()
                     .addComponent(jPanelSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addContainerGap()))
-            .addGroup(jPanelContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanelContentLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanelReports, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addContainerGap()))
         );
 
@@ -553,8 +517,9 @@ public class DashboardView extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonReportsMouseClicked
 
     private void jButtonSettingsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonSettingsMouseClicked
+        SettingsView sv = new SettingsView(this.account, this.company);
         jPanelContent.removeAll();
-        jPanelContent.add(jPanelSettings);
+        jPanelContent.add(sv.getSettingsView());
         jPanelContent.repaint();
         jPanelContent.revalidate();
     }//GEN-LAST:event_jButtonSettingsMouseClicked
@@ -586,6 +551,14 @@ public class DashboardView extends javax.swing.JFrame {
     private void jButtonProductsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProductsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButtonProductsActionPerformed
+
+    private void jButtonLogoutMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonLogoutMouseClicked
+        this.dispose();
+        LandingPage.isLogin = false;
+        LandingPage.account = null;
+        LandingPage.dv = null;
+        LandingPage.ld.setVisible(true);
+    }//GEN-LAST:event_jButtonLogoutMouseClicked
 
     /**
      * @param account
@@ -670,7 +643,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel30;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabelAccountFirstName;
     private javax.swing.JLabel jLabelHour;
@@ -683,7 +655,6 @@ public class DashboardView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelContent;
     private javax.swing.JPanel jPanelDashboard;
     private javax.swing.JPanel jPanelNavigation;
-    private javax.swing.JPanel jPanelReports;
     private javax.swing.JPanel jPanelSettings;
     private javax.swing.JTextField jTextFieldSettingsConfirmPassword;
     private javax.swing.JTextField jTextFieldSettingsCurrentPassword;

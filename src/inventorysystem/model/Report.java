@@ -12,9 +12,8 @@ public class Report {
     private int quantity;
     private String status;
     
-    public Report(int r_ID, String username, String product_name, Date report_date, Time report_time, int quantity, String status){
+    public Report(int r_ID, String product_name, Date report_date, Time report_time, int quantity, String status){
         this.report_ID = r_ID;
-        this.username = username;
         this.product_name = product_name;
         this.report_date = report_date;
         this.report_time = report_time;
@@ -44,5 +43,8 @@ public class Report {
     }
     public void setStatus(String status){
         this.status = status;
+    }
+    public void setUsername(String username){
+        this.username = username;
     }
 }

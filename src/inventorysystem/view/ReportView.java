@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JPanel;
 import javax.swing.table.DefaultTableModel;
+import java.sql.Time;
+import java.util.Date;
 
 /**
  *
@@ -20,6 +22,7 @@ public class ReportView extends javax.swing.JFrame {
     private ArrayList<String> report_filter = new ArrayList<>();
     private ArrayList<Product> products = new ArrayList<>();
     private ArrayList<Inventory> inventories = new ArrayList<>();
+    private ArrayList<String> report_status = new ArrayList<>();
     private Account account;
     private Company company;
     public ReportView(Account account, Company company) {
@@ -28,6 +31,7 @@ public class ReportView extends javax.swing.JFrame {
         this.company = company;
         
         this.loadReportFilter();
+        this.loadReportStatus();
         this.loadDatabase();
         this.fillComboBox();
         this.fillReportTable();
@@ -55,9 +59,24 @@ public class ReportView extends javax.swing.JFrame {
         jComboBoxReportFilter.setSelectedIndex(0);
     }
     
+    public void loadReportStatus(){
+        jComboBoxEditReportStatus.removeAllItems();
+        
+        this.report_status.add("Approved");
+        this.report_status.add("Pending");
+        this.report_status.add("Denied");
+        
+        int i = 0;
+        for(String report_stats : this.report_status){
+            jComboBoxEditReportStatus.insertItemAt(report_stats, i);
+            i++;
+        }
+        
+        jComboBoxEditReportStatus.setSelectedIndex(0);
+    }
+    
     public void loadDatabase(){
         ReportController rc = new ReportController();
-        ProductController pc = new ProductController();
         InventoryController ic = new InventoryController();
         
         this.reports = rc.loadReportsAdmin(this.account.getAccountID(), this.company.getCompanyID());
@@ -118,6 +137,12 @@ public class ReportView extends javax.swing.JFrame {
             model.addRow(row_data);
         }
     }
+    
+    private void refresh(){
+        this.loadDatabase();
+        this.fillReportTable();
+        this.loadProductsDatabase();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -146,11 +171,23 @@ public class ReportView extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jComboBoxAddReportProducts = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldAddReportQuantity = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jComboBoxAddReportInventory = new javax.swing.JComboBox<>();
+        jPanelModalEditReport = new javax.swing.JPanel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabelEditReportProductName = new javax.swing.JLabel();
+        jLabelEditReportID = new javax.swing.JLabel();
+        jLabelEditReportQuantity = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jComboBoxEditReportStatus = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -159,7 +196,6 @@ public class ReportView extends javax.swing.JFrame {
         jPanelReport.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Reports");
 
         jButtonAddReport.setText("Add");
@@ -170,12 +206,32 @@ public class ReportView extends javax.swing.JFrame {
         });
 
         jButtonApproveReport.setText("Approve");
+        jButtonApproveReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonApproveReportMouseClicked(evt);
+            }
+        });
 
         jButtonDenyReport.setText("Deny");
+        jButtonDenyReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonDenyReportMouseClicked(evt);
+            }
+        });
 
         jButtonEditReport.setText("Edit");
+        jButtonEditReport.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonEditReportMouseClicked(evt);
+            }
+        });
 
         jButtonRefresh.setText("Refresh");
+        jButtonRefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonRefreshMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -238,6 +294,11 @@ public class ReportView extends javax.swing.JFrame {
         jComboBoxReportFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButtonFilter.setText("Filter");
+        jButtonFilter.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonFilterMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelReportLayout = new javax.swing.GroupLayout(jPanelReport);
         jPanelReport.setLayout(jPanelReportLayout);
@@ -299,22 +360,28 @@ public class ReportView extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Add Report");
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Product Name:");
 
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Q:uantity:");
 
         jComboBoxAddReportProducts.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jButton1.setText("Close");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
 
         jButton2.setText("Submit");
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
 
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Inventory Name:");
 
         jComboBoxAddReportInventory.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
@@ -352,7 +419,7 @@ public class ReportView extends javax.swing.JFrame {
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jComboBoxAddReportProducts, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(jTextFieldAddReportQuantity, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 90, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -372,11 +439,107 @@ public class ReportView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldAddReportQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
                 .addGroup(jPanelModalAddReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
+                .addContainerGap())
+        );
+
+        jPanelModalEditReport.setBackground(new java.awt.Color(0, 204, 204));
+
+        jLabel6.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        jLabel6.setText("Edit Report");
+
+        jLabel7.setText("Report ID:");
+
+        jLabel9.setText("Product Name:");
+
+        jLabel10.setText("Quantity:");
+
+        jLabel8.setText("Status:");
+
+        jLabelEditReportProductName.setText("N/A");
+
+        jLabelEditReportID.setText("N/A");
+
+        jLabelEditReportQuantity.setText("N/A");
+
+        jButton3.setText("Close");
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+
+        jButton4.setText("Edit");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+        });
+
+        jComboBoxEditReportStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        javax.swing.GroupLayout jPanelModalEditReportLayout = new javax.swing.GroupLayout(jPanelModalEditReport);
+        jPanelModalEditReport.setLayout(jPanelModalEditReportLayout);
+        jPanelModalEditReportLayout.setHorizontalGroup(
+            jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelModalEditReportLayout.createSequentialGroup()
+                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelModalEditReportLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton4))
+                    .addGroup(jPanelModalEditReportLayout.createSequentialGroup()
+                        .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelModalEditReportLayout.createSequentialGroup()
+                                .addGap(146, 146, 146)
+                                .addComponent(jLabel6))
+                            .addGroup(jPanelModalEditReportLayout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel8))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelEditReportQuantity)
+                                    .addComponent(jLabelEditReportID)
+                                    .addComponent(jLabelEditReportProductName)
+                                    .addComponent(jComboBoxEditReportStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 163, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelModalEditReportLayout.setVerticalGroup(
+            jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelModalEditReportLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jLabelEditReportID))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jLabelEditReportProductName))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel10)
+                    .addComponent(jLabelEditReportQuantity))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jComboBoxEditReportStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
                 .addContainerGap())
         );
 
@@ -390,6 +553,11 @@ public class ReportView extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jPanelModalAddReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(83, 83, 83)
+                    .addComponent(jPanelModalEditReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(84, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -399,6 +567,11 @@ public class ReportView extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE)
                     .addComponent(jPanelModalAddReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(80, 80, 80)
+                    .addComponent(jPanelModalEditReport, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(80, Short.MAX_VALUE)))
         );
 
         pack();
@@ -414,6 +587,132 @@ public class ReportView extends javax.swing.JFrame {
     private void jComboBoxAddReportInventoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxAddReportInventoryActionPerformed
         this.loadProductsDatabase();
     }//GEN-LAST:event_jComboBoxAddReportInventoryActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        jPanelReportContainer.removeAll();
+        jPanelReportContainer.add(jPanelReport);
+        jPanelReportContainer.repaint();
+        jPanelReportContainer.revalidate();
+    }//GEN-LAST:event_jButton1MouseClicked
+
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        ReportController rc = new ReportController();
+        int a_ID = this.account.getAccountID();
+        int selected_index = jComboBoxAddReportProducts.getSelectedIndex();
+        int p_ID = this.products.get(selected_index).getProductID();
+        int consumed = Integer.parseInt(jTextFieldAddReportQuantity.getText());
+        
+        rc.createReport(a_ID, p_ID, consumed);
+        this.refresh();
+        
+        jPanelReportContainer.removeAll();
+        jPanelReportContainer.add(jPanelReport);
+        jPanelReportContainer.repaint();
+        jPanelReportContainer.revalidate();
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void jButtonFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFilterMouseClicked
+        ReportController rc = new ReportController();
+        int selected_index = jComboBoxReportFilter.getSelectedIndex();
+        String filter = this.report_filter.get(selected_index);
+        
+        if(filter.equals("All")){
+            this.refresh();
+            return;
+        }
+        this.reports = rc.loadReportsAdmin(this.account.getAccountID(), this.company.getCompanyID(), filter);
+        
+        this.fillReportTable();
+    }//GEN-LAST:event_jButtonFilterMouseClicked
+
+    private void jButtonRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRefreshMouseClicked
+        this.refresh();
+        jPanelReportContainer.removeAll();
+        jPanelReportContainer.add(jPanelReport);
+        jPanelReportContainer.repaint();
+        jPanelReportContainer.revalidate();
+    }//GEN-LAST:event_jButtonRefreshMouseClicked
+
+    private void jButtonApproveReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonApproveReportMouseClicked
+        ReportController rc = new ReportController();
+        DefaultTableModel model = (DefaultTableModel) jTableReport.getModel();
+        int table_size = model.getRowCount();
+        for(int i = 0; i < table_size; i++){
+            Boolean is_checked = (Boolean) model.getValueAt(i, 6);
+            String status = (String) model.getValueAt(i, 5);
+            if(is_checked != null && is_checked && status.equals("Pending")){
+                int report_ID = (int) model.getValueAt(i, 0);
+                rc.updateReport(report_ID, "Approved");
+            }
+        }
+
+        this.refresh();
+    }//GEN-LAST:event_jButtonApproveReportMouseClicked
+
+    private void jButtonDenyReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonDenyReportMouseClicked
+        ReportController rc = new ReportController();
+        DefaultTableModel model = (DefaultTableModel) jTableReport.getModel();
+        int table_size = model.getRowCount();
+        for(int i = 0; i < table_size; i++){
+            Boolean is_checked = (Boolean) model.getValueAt(i, 6);
+            String status = (String) model.getValueAt(i, 5);
+            if(is_checked != null && is_checked && status.equals("Pending")){
+                int report_ID = (int) model.getValueAt(i, 0);
+                rc.updateReport(report_ID, "Denied");
+            }
+        }
+
+        this.refresh();
+    }//GEN-LAST:event_jButtonDenyReportMouseClicked
+
+    private void jButtonEditReportMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEditReportMouseClicked
+        ReportController rc = new ReportController();
+        DefaultTableModel model = (DefaultTableModel) jTableReport.getModel();
+        int table_size = model.getRowCount();
+        for(int i = 0; i < table_size; i++){
+            Boolean is_checked = (Boolean) model.getValueAt(i, 6);
+            if(is_checked != null && is_checked){
+                int report_ID = (int) model.getValueAt(i, 0);
+                String product_name = (String) model.getValueAt(i, 2);
+                int quantity = (int) model.getValueAt(i, 4);
+                String status = (String) model.getValueAt(i, 5);
+                
+                jComboBoxEditReportStatus.setSelectedItem(status);
+                jLabelEditReportID.setText(Integer.toString(report_ID));
+                jLabelEditReportProductName.setText(product_name);
+                jLabelEditReportQuantity.setText(Integer.toString(quantity));
+                
+                jPanelReportContainer.removeAll();
+                jPanelReportContainer.add(jPanelModalEditReport);
+                jPanelReportContainer.repaint();
+                jPanelReportContainer.revalidate();
+            }
+        }
+    }//GEN-LAST:event_jButtonEditReportMouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        this.refresh();
+        
+        jPanelReportContainer.removeAll();
+        jPanelReportContainer.add(jPanelReport);
+        jPanelReportContainer.repaint();
+        jPanelReportContainer.revalidate();
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        ReportController rc = new ReportController();
+        String status = (String) jComboBoxEditReportStatus.getSelectedItem();
+        int report_ID = Integer.parseInt(jLabelEditReportID.getText());
+        
+        rc.updateReport(report_ID, status);
+        
+        this.refresh();
+        
+        jPanelReportContainer.removeAll();
+        jPanelReportContainer.add(jPanelReport);
+        jPanelReportContainer.repaint();
+        jPanelReportContainer.revalidate();
+    }//GEN-LAST:event_jButton4MouseClicked
 
     /**
      * @param args the command line arguments
@@ -453,6 +752,8 @@ public class ReportView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAddReport;
     private javax.swing.JButton jButtonApproveReport;
     private javax.swing.JButton jButtonDenyReport;
@@ -461,18 +762,28 @@ public class ReportView extends javax.swing.JFrame {
     private javax.swing.JButton jButtonRefresh;
     private javax.swing.JComboBox<String> jComboBoxAddReportInventory;
     private javax.swing.JComboBox<String> jComboBoxAddReportProducts;
+    private javax.swing.JComboBox<String> jComboBoxEditReportStatus;
     private javax.swing.JComboBox<String> jComboBoxReportFilter;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelEditReportID;
+    private javax.swing.JLabel jLabelEditReportProductName;
+    private javax.swing.JLabel jLabelEditReportQuantity;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelModalAddReport;
+    private javax.swing.JPanel jPanelModalEditReport;
     private javax.swing.JPanel jPanelReport;
     private javax.swing.JPanel jPanelReportContainer;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableReport;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextFieldAddReportQuantity;
     // End of variables declaration//GEN-END:variables
 }
