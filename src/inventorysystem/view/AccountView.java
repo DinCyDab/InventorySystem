@@ -142,11 +142,11 @@ public class AccountView extends javax.swing.JFrame {
         jTextFieldAddFirstName = new javax.swing.JTextField();
         jTextFieldAddLastName = new javax.swing.JTextField();
         jTextFieldAddUsername = new javax.swing.JTextField();
-        jTextFieldAddPassword = new javax.swing.JTextField();
         jTextFieldAddEmail = new javax.swing.JTextField();
         jComboBoxAddAccessLevel = new javax.swing.JComboBox<>();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jPasswordFieldAddPassword = new javax.swing.JPasswordField();
         jPanelModalEditAccount = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -212,12 +212,6 @@ public class AccountView extends javax.swing.JFrame {
             }
         });
 
-        jTextFieldAddPassword.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextFieldAddPasswordActionPerformed(evt);
-            }
-        });
-
         jTextFieldAddEmail.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldAddEmailActionPerformed(evt);
@@ -273,14 +267,12 @@ public class AccountView extends javax.swing.JFrame {
                                     .addComponent(jTextFieldAddEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(64, 64, 64)
                         .addGroup(jPanelModalAddAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanelModalAddAccountLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                                .addComponent(jTextFieldAddLastName, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanelModalAddAccountLayout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextFieldAddPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                        .addGroup(jPanelModalAddAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jTextFieldAddLastName, javax.swing.GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE)
+                            .addComponent(jPasswordFieldAddPassword))
                         .addGap(52, 52, 52))
                     .addGroup(jPanelModalAddAccountLayout.createSequentialGroup()
                         .addComponent(jButton1)
@@ -304,7 +296,7 @@ public class AccountView extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jTextFieldAddUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextFieldAddPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordFieldAddPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelModalAddAccountLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
@@ -688,10 +680,6 @@ public class AccountView extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldAddUsernameActionPerformed
 
-    private void jTextFieldAddPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddPasswordActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextFieldAddPasswordActionPerformed
-
     private void jTextFieldAddEmailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddEmailActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextFieldAddEmailActionPerformed
@@ -717,9 +705,37 @@ public class AccountView extends javax.swing.JFrame {
         String l_name = jTextFieldAddLastName.getText();
         String username = jTextFieldAddUsername.getText();
         String email = jTextFieldAddEmail.getText();
-        String password = jTextFieldAddPassword.getText();
+        String password = jPasswordFieldAddPassword.getText();
+        
+        if(username.equals("")){
+            System.out.println("Username must not be empty");
+            return;
+        }
+        
+        if(email.equals("")){
+            System.out.println("Email must not be empty");
+            return;
+        }
+        
+        if(password.equals("")){
+            System.out.println("Password must not be empty");
+            return;
+        }
         
         AccountController ac = new AccountController();
+        
+        boolean is_username_found = ac.findUsername(username);
+        if(is_username_found){
+            System.out.println("Please enter different username");
+            return;
+        }
+        
+        boolean is_email_found = ac.findEmail(email);
+        if(is_email_found){
+            System.out.println("Please enter different email");
+            return;
+        }
+        
         ac.createAccount(this.company.getCompanyID(), f_name, l_name, username, password, access_lev, email);
         
         this.loadDatabase();
@@ -735,12 +751,18 @@ public class AccountView extends javax.swing.JFrame {
         AccountController ac = new AccountController();
         DefaultTableModel model = (DefaultTableModel) jTableAccounts.getModel();
         
+        String account_access = this.account.getAccessLevel();
+        
         int table_size = model.getRowCount();
         
         for(int i = 0; i < table_size; i++){
             Boolean is_checked = (Boolean) model.getValueAt(i, 7);
             if(is_checked != null && is_checked){
                 String access_lev = (String) model.getValueAt(i, 5);
+                
+                if(account_access.equals("Admin") && access_lev.equals("Admin")){
+                    continue;
+                }
                 if(access_lev.equals("Owner")){
                     continue;
                 }
@@ -798,8 +820,13 @@ public class AccountView extends javax.swing.JFrame {
         String email = jTextFieldEditEmail.getText();
         String password = jPasswordFieldEditPassword.getText();
         
+        if(password.equals("")){
+            ac.editAccount(account_ID, f_name, l_name, email, access_lev);
+        }
+        else{
+            ac.editAccount(account_ID, f_name, l_name, password, email, access_lev);
+        }
         
-        ac.editAccount(account_ID, f_name, l_name, password, email, access_lev);
         this.refresh();
         
         jPanelAccountContainer.removeAll();
@@ -816,11 +843,17 @@ public class AccountView extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel) jTableAccounts.getModel();
         AccountController ac = new AccountController();
         
+        int current_account_ID = this.account.getAccountID();
+        
         int table_size = model.getRowCount();
         for(int i = 0; i < table_size; i++){
             Boolean is_checked = (Boolean) model.getValueAt(i, 7);
             if(is_checked != null && is_checked){
                 int account_ID = this.accounts.get(i).getAccountID();
+                if(current_account_ID == account_ID){
+                    continue;
+                }
+                
                 String f_name = this.accounts.get(i).getFirstName();
                 String l_name = this.accounts.get(i).getLastName();
                 String username = this.accounts.get(i).getUsername();
@@ -852,7 +885,7 @@ public class AccountView extends javax.swing.JFrame {
                 jLabelEditUsername.setText(username);
                 jLabelEditAccountID.setText(Integer.toString(account_ID));
                 jTextFieldEditEmail.setText(email);
-                jPasswordFieldEditPassword.setText(password);
+//                jPasswordFieldEditPassword.setText(password);
                 jComboBoxEditAccessLevel.setSelectedIndex(selected_index);
             }
         }
@@ -931,13 +964,13 @@ public class AccountView extends javax.swing.JFrame {
     private javax.swing.JPanel jPanelAccountContainer;
     private javax.swing.JPanel jPanelModalAddAccount;
     private javax.swing.JPanel jPanelModalEditAccount;
+    private javax.swing.JPasswordField jPasswordFieldAddPassword;
     private javax.swing.JPasswordField jPasswordFieldEditPassword;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableAccounts;
     private javax.swing.JTextField jTextFieldAddEmail;
     private javax.swing.JTextField jTextFieldAddFirstName;
     private javax.swing.JTextField jTextFieldAddLastName;
-    private javax.swing.JTextField jTextFieldAddPassword;
     private javax.swing.JTextField jTextFieldAddUsername;
     private javax.swing.JTextField jTextFieldEditEmail;
     private javax.swing.JTextField jTextFieldEditFirstName;

@@ -77,7 +77,7 @@ public class ProductView extends javax.swing.JFrame {
             model.setRowCount(0);
 
             for(Product product : products){
-                Object[] row_data = {product.getProductID(), product.getProductName(), product.getProductDescription(), product.getQuantity(), product.getStatus()};
+                Object[] row_data = {product.getProductID(), product.getProductName(), product.getProductDescription(), product.getStatus()};
                 model.addRow(row_data);
             }
         }
@@ -100,8 +100,6 @@ public class ProductView extends javax.swing.JFrame {
         jTextFieldAddProductName = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextAreaAddProductDescription = new javax.swing.JTextArea();
-        jLabel11 = new javax.swing.JLabel();
-        jTextFieldAddProductQuantity = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
         jComboBoxAddProductInventory = new javax.swing.JComboBox<>();
@@ -160,9 +158,6 @@ public class ProductView extends javax.swing.JFrame {
         jTextAreaAddProductDescription.setRows(5);
         jScrollPane1.setViewportView(jTextAreaAddProductDescription);
 
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel11.setText("Quantity");
-
         jButton5.setText("Add");
         jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -201,15 +196,12 @@ public class ProductView extends javax.swing.JFrame {
                                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanelModalAddProductLayout.createSequentialGroup()
                                         .addGap(30, 30, 30)
-                                        .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextFieldAddProductQuantity)
-                                            .addComponent(jScrollPane1)))
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddProductLayout.createSequentialGroup()
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addComponent(jComboBoxAddProductInventory, 0, 234, Short.MAX_VALUE)
-                                            .addComponent(jTextFieldAddProductName)))))
-                            .addComponent(jLabel11))
+                                            .addComponent(jTextFieldAddProductName))))))
                         .addContainerGap(80, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelModalAddProductLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -238,11 +230,7 @@ public class ProductView extends javax.swing.JFrame {
                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel11)
-                    .addComponent(jTextFieldAddProductQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addGroup(jPanelModalAddProductLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton5)
                     .addComponent(jButton7))
@@ -443,14 +431,14 @@ public class ProductView extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Product Name", "Description", "Quantity", "Status", ""
+                "ID", "Product Name", "Description", "Status", ""
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -597,7 +585,7 @@ public class ProductView extends javax.swing.JFrame {
         int table_size = model.getRowCount();
 
         for(int i = 0; i < table_size; i++){
-            Boolean is_check = (Boolean) model.getValueAt(i, 5);
+            Boolean is_check = (Boolean) model.getValueAt(i, 4);
             if(is_check != null && is_check){
                 int product_ID = (int) model.getValueAt(i, 0);
                 pc.updateProduct(product_ID, "Inactive");
@@ -612,7 +600,7 @@ public class ProductView extends javax.swing.JFrame {
         int table_size = model.getRowCount();
 
         for(int i = 0; i < table_size; i++){
-            Boolean is_check = (Boolean) model.getValueAt(i, 5);
+            Boolean is_check = (Boolean) model.getValueAt(i, 4);
             if(is_check != null && is_check){
                 int product_ID = (int) model.getValueAt(i, 0);
                 pc.updateProduct(product_ID, "Active");
@@ -627,27 +615,33 @@ public class ProductView extends javax.swing.JFrame {
 
     private void jButtonFilterProductsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFilterProductsMouseClicked
         int selected_index = jComboBoxProductsInventoryName.getSelectedIndex();
-        int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
-        if(inventory_ID != -1){
+        try{
+            int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
+            if(inventory_ID != -1){
+                ProductController pc = new ProductController(inventory_ID);
+                ArrayList<Product> products = pc.getProducts();
+                DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
+                model.setRowCount(0);
 
-            ProductController pc = new ProductController(inventory_ID);
-            ArrayList<Product> products = pc.getProducts();
-            DefaultTableModel model = (DefaultTableModel) jTableProducts.getModel();
-            model.setRowCount(0);
+                for(Product product : products){
 
-            for(Product product : products){
+                    int product_ID = product.getProductID();
+                    String product_name = product.getProductName();
+                    String product_description = product.getProductDescription();
+    //                int quantity = product.getQuantity();
+                    String status = product.getStatus();
 
-                int product_ID = product.getProductID();
-                String product_name = product.getProductName();
-                String product_description = product.getProductDescription();
-                int quantity = product.getQuantity();
-                String status = product.getStatus();
+                    Object[] rowData = {product_ID, product_name, product_description, status, false};
 
-                Object[] rowData = {product_ID, product_name, product_description, quantity, status, false, false};
-
-                model.addRow(rowData);
+                    model.addRow(rowData);
+                }
             }
         }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Invalid Inventory");
+        }
+        
+        
     }//GEN-LAST:event_jButtonFilterProductsMouseClicked
 
     private void jTextFieldAddProductNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAddProductNameActionPerformed
@@ -656,18 +650,30 @@ public class ProductView extends javax.swing.JFrame {
 
     private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
         int selected_index = jComboBoxAddProductInventory.getSelectedIndex();
-        int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
-        ProductController pc = new ProductController();
-        String product_name = jTextFieldAddProductName.getText();
-        String product_description = jTextAreaAddProductDescription.getText();
-        int quantity = Integer.parseInt(jTextFieldAddProductQuantity.getText());
+        try{
+            int inventory_ID = this.active_inventories.get(selected_index).getInventoryID();
+            ProductController pc = new ProductController();
+            String product_name = jTextFieldAddProductName.getText();
+            String product_description = jTextAreaAddProductDescription.getText();
 
-        pc.createProduct(inventory_ID, product_name, product_description, quantity);
+            if(product_name.equals("")){
+                System.out.println("Product Name must not be empty");
+                return;
+            }
 
-        jPanelProductContainer.removeAll();
-        jPanelProductContainer.add(jPanelProducts);
-        jPanelProductContainer.repaint();
-        jPanelProductContainer.revalidate();
+            pc.createProduct(inventory_ID, product_name, product_description);
+
+            this.refresh();
+
+            jPanelProductContainer.removeAll();
+            jPanelProductContainer.add(jPanelProducts);
+            jPanelProductContainer.repaint();
+            jPanelProductContainer.revalidate();
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Invalid Inventory");
+        }
+        
     }//GEN-LAST:event_jButton5MouseClicked
 
     private void jButton7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton7MouseClicked
@@ -687,7 +693,7 @@ public class ProductView extends javax.swing.JFrame {
         int table_size = model.getRowCount();
         
         for(int i = 0; i < table_size; i++){
-            Boolean is_checked = (Boolean) model.getValueAt(i, 5);
+            Boolean is_checked = (Boolean) model.getValueAt(i, 4);
             if(is_checked != null && is_checked){
                 jPanelProductContainer.removeAll();
                 jPanelProductContainer.add(jPanelModalEditProduct);
@@ -728,6 +734,11 @@ public class ProductView extends javax.swing.JFrame {
         int product_ID = Integer.parseInt(jLabelEditProductID.getText());
         String product_name = jTextFieldEditProductName.getText();
         String description = jTextAreaEditProductDescription.getText();
+        
+        if(product_name.equals("")){
+            System.out.println("Product Name must not be empty");
+            return;
+        }
         
         pc.updateProduct(product_ID, inventory_ID, product_name, description);
         
@@ -789,7 +800,6 @@ public class ProductView extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> jComboBoxEditInventoryName;
     private javax.swing.JComboBox<String> jComboBoxProductsInventoryName;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel29;
@@ -813,7 +823,6 @@ public class ProductView extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextAreaAddProductDescription;
     private javax.swing.JTextArea jTextAreaEditProductDescription;
     private javax.swing.JTextField jTextFieldAddProductName;
-    private javax.swing.JTextField jTextFieldAddProductQuantity;
     private javax.swing.JTextField jTextFieldEditProductName;
     // End of variables declaration//GEN-END:variables
 }

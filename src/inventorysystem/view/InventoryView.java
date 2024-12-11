@@ -496,6 +496,11 @@ public class InventoryView extends javax.swing.JFrame {
         InventoryController ic = new InventoryController(this.company.getCompanyID());
         String name = jTextFieldInventoryName.getText();
         String description = jTextAreaInventoryDescription.getText();
+        
+        if(name.equals("")){
+            System.out.println("Inventory Name must not be empty");
+            return;
+        }
 
         ic.createInventory(this.company.getCompanyID(), name, description);
 
@@ -519,6 +524,11 @@ public class InventoryView extends javax.swing.JFrame {
         int inventory_ID = Integer.parseInt(jLabelEditInventoryID.getText());
         String name = jTextFieldEditInventoryName.getText();
         String description = jTextAreaEditInventoryDescription.getText();
+        
+        if(name.equals("")){
+            System.out.println("Inventory Name must not be empty");
+            return;
+        }
 
         ic.updateInventory(inventory_ID, name, description);
         this.refresh();

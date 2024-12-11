@@ -547,6 +547,38 @@ public class LandingPage extends javax.swing.JFrame {
     private void jButtonRegisterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonRegisterMouseClicked
         CompanyController cc = new CompanyController();
         AccountController ac = new AccountController();
+        
+        String username = jTextFieldRegisterUsername.getText();
+        String email = jTextFieldRegisterEmail.getText();
+        String password = jPasswordFieldRegisterPassword.getText();
+        
+        if(username.equals("")){
+            System.out.println("Please enter your username");
+            return;
+        }
+        
+        if(email.equals("")){
+            System.out.println("Please enter your email");
+            return;
+        }
+        
+        if(password.equals("")){
+            System.out.println("Please enter your password");
+            return;
+        }
+        
+        boolean is_username_found = ac.findUsername(username);
+        if(is_username_found){
+            System.out.println("Please use a different username");
+            return;
+        }
+        
+        boolean is_email_found = ac.findEmail(email);
+        if(is_email_found){
+            System.out.println("Please use a different email");
+            return;
+        }
+        
         String company_name = jTextFieldCompanyName.getText();
         String description = jTextAreaCompanyDescription.getText();
         
@@ -554,9 +586,6 @@ public class LandingPage extends javax.swing.JFrame {
         
         String first_name = jTextFieldFirstName.getText();
         String last_name = jTextFieldLastName.getText();
-        String username = jTextFieldRegisterUsername.getText();
-        String password = jPasswordFieldRegisterPassword.getText();
-        String email = jTextFieldRegisterEmail.getText();
         
         int isCreated = ac.createAccount(company_ID, first_name, last_name, username, password, "Owner", email);
         if(isCreated != 0){
@@ -598,6 +627,12 @@ public class LandingPage extends javax.swing.JFrame {
         LandingPage.isLogin = ac.loadAccount(username, password);
         if(LandingPage.isLogin){
             Account account = ac.getAccount();
+            
+            if(account.getStatus().equals("Inactive")){
+                System.out.println("Account is inactive. Please contact your owner or administrator.");
+                return;
+            }
+            
             CompanyController cc = new CompanyController(account.getCompanyID());
             Company company = cc.getCompany();
             

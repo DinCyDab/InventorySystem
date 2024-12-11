@@ -112,6 +112,12 @@ public class ReportView extends javax.swing.JFrame {
         jComboBoxAddReportInventory.removeAllItems();
       
         int i = 0;
+        
+        int inventory_size = this.inventories.size();
+        if(inventory_size <= 0){
+            return;
+        }
+        
         for(Inventory inventory : this.inventories){
             jComboBoxAddReportInventory.insertItemAt(inventory.getInventoryName(), i);
             i++;
@@ -184,10 +190,10 @@ public class ReportView extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabelEditReportProductName = new javax.swing.JLabel();
         jLabelEditReportID = new javax.swing.JLabel();
-        jLabelEditReportQuantity = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jComboBoxEditReportStatus = new javax.swing.JComboBox<>();
+        jTextFieldEditQuantity = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -465,8 +471,6 @@ public class ReportView extends javax.swing.JFrame {
 
         jLabelEditReportID.setText("N/A");
 
-        jLabelEditReportQuantity.setText("N/A");
-
         jButton3.setText("Close");
         jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -507,11 +511,11 @@ public class ReportView extends javax.swing.JFrame {
                                     .addComponent(jLabel10)
                                     .addComponent(jLabel8))
                                 .addGap(18, 18, 18)
-                                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelEditReportQuantity)
+                                .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabelEditReportID)
                                     .addComponent(jLabelEditReportProductName)
-                                    .addComponent(jComboBoxEditReportStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                    .addComponent(jComboBoxEditReportStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextFieldEditQuantity))))
                         .addGap(0, 163, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -531,12 +535,12 @@ public class ReportView extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jLabelEditReportQuantity))
+                    .addComponent(jTextFieldEditQuantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel8)
                     .addComponent(jComboBoxEditReportStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
                 .addGroup(jPanelModalEditReportLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
@@ -598,17 +602,34 @@ public class ReportView extends javax.swing.JFrame {
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
         ReportController rc = new ReportController();
         int a_ID = this.account.getAccountID();
-        int selected_index = jComboBoxAddReportProducts.getSelectedIndex();
-        int p_ID = this.products.get(selected_index).getProductID();
-        int consumed = Integer.parseInt(jTextFieldAddReportQuantity.getText());
-        
-        rc.createReport(a_ID, p_ID, consumed);
-        this.refresh();
-        
-        jPanelReportContainer.removeAll();
-        jPanelReportContainer.add(jPanelReport);
-        jPanelReportContainer.repaint();
-        jPanelReportContainer.revalidate();
+        try{
+            int selected_index = jComboBoxAddReportProducts.getSelectedIndex();
+            int p_ID = this.products.get(selected_index).getProductID();
+
+            String consumed_string = jTextFieldAddReportQuantity.getText();
+            if(consumed_string.equals("")){
+                System.out.println("Please enter a value greater than 0");
+                return;
+            }
+
+            int consumed = Integer.parseInt(consumed_string);
+
+            if(consumed < 0){
+                System.out.println("Please enter a value greater than 0");
+                return;
+            }
+
+            rc.createReport(a_ID, p_ID, consumed);
+            this.refresh();
+
+            jPanelReportContainer.removeAll();
+            jPanelReportContainer.add(jPanelReport);
+            jPanelReportContainer.repaint();
+            jPanelReportContainer.revalidate();
+        }
+        catch(IndexOutOfBoundsException e){
+            System.out.println("Invalid Product");
+        }
     }//GEN-LAST:event_jButton2MouseClicked
 
     private void jButtonFilterMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonFilterMouseClicked
@@ -680,7 +701,7 @@ public class ReportView extends javax.swing.JFrame {
                 jComboBoxEditReportStatus.setSelectedItem(status);
                 jLabelEditReportID.setText(Integer.toString(report_ID));
                 jLabelEditReportProductName.setText(product_name);
-                jLabelEditReportQuantity.setText(Integer.toString(quantity));
+                jTextFieldEditQuantity.setText(Integer.toString(quantity));
                 
                 jPanelReportContainer.removeAll();
                 jPanelReportContainer.add(jPanelModalEditReport);
@@ -702,9 +723,24 @@ public class ReportView extends javax.swing.JFrame {
     private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
         ReportController rc = new ReportController();
         String status = (String) jComboBoxEditReportStatus.getSelectedItem();
+        
+        String quantity_string = jTextFieldEditQuantity.getText();
+        
+        if(quantity_string.equals("")){
+            System.out.println("Quantity must be greater than 0");
+            return;
+        }
+        
+        int quantity = Integer.parseInt(quantity_string);
+        
+        if(quantity <= 0){
+            System.out.println("Quantity must be greater than 0");
+            return;
+        }
+        
         int report_ID = Integer.parseInt(jLabelEditReportID.getText());
         
-        rc.updateReport(report_ID, status);
+        rc.updateReport(report_ID, status, quantity);
         
         this.refresh();
         
@@ -776,7 +812,6 @@ public class ReportView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel jLabelEditReportID;
     private javax.swing.JLabel jLabelEditReportProductName;
-    private javax.swing.JLabel jLabelEditReportQuantity;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelModalAddReport;
     private javax.swing.JPanel jPanelModalEditReport;
@@ -785,5 +820,6 @@ public class ReportView extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTableReport;
     private javax.swing.JTextField jTextFieldAddReportQuantity;
+    private javax.swing.JTextField jTextFieldEditQuantity;
     // End of variables declaration//GEN-END:variables
 }

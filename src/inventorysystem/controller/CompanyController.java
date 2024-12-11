@@ -18,7 +18,7 @@ public class CompanyController {
         int inserted_ID = 0;
         
         String sql = "INSERT INTO "
-                + "Company(company_name, company_description)"
+                + "Company(company_name, company_description) "
                 + "VALUES('"+name+"', '"+description+"')";
         inserted_ID = this.dc.insertQuery(sql);
         return inserted_ID;

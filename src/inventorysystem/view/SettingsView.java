@@ -249,7 +249,7 @@ public class SettingsView extends javax.swing.JFrame {
         jPanelSettings.setBackground(new java.awt.Color(0, 204, 204));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel6.setText("Settings");
+        jLabel6.setText("Profile Settings");
 
         jButton12.setText("Save Changes");
         jButton12.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -525,6 +525,13 @@ public class SettingsView extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextFieldSettingsLastNameActionPerformed
 
     private void jButton12MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton12MouseClicked
+        String current_password = jPasswordFieldCurrentPassword.getText();
+        
+        if(current_password.equals("")){
+            System.out.println("Please Enter your Current Password");
+            return;
+        }
+        
         jPanelSettingsContainer.removeAll();
         jPanelSettingsContainer.add(jPanelModalConfirmation);
         jPanelSettingsContainer.repaint();
@@ -545,6 +552,31 @@ public class SettingsView extends javax.swing.JFrame {
         String new_password = jPasswordFieldNewPassword.getText();
         String confirm_password = jPasswordFieldConfirmPassword.getText();
         
+        if(new_password.equals("") && confirm_password.equals("")){
+            boolean is_correct_password = ac.loadAccount(username, current_password);
+            if(is_correct_password){
+                String first_name = jTextFieldSettingsFirstName.getText();
+                String last_name = jTextFieldSettingsLastName.getText();
+                String email = jTextFieldSettingsEmail.getText();
+                String access_level = jLabelSettingsAccessLevel.getText();
+                ac.editAccount(account_ID, first_name, last_name, email, access_level);
+                ac.loadAccount(username, current_password);
+                DashboardView.account = ac.getAccount();
+
+                jPanelSettingsContainer.removeAll();
+                jPanelSettingsContainer.add(jPanelSaveSuccessful);
+                jPanelSettingsContainer.repaint();
+                jPanelSettingsContainer.revalidate();
+            }
+            else{
+                System.out.println("Please enter your correct password");
+            }
+            jPasswordFieldConfirmPassword.setText("");
+            jPasswordFieldCurrentPassword.setText("");
+            jPasswordFieldNewPassword.setText("");
+            return;
+        }
+        
         if(!new_password.equals(confirm_password)){
             jPanelSettingsContainer.removeAll();
             jPanelSettingsContainer.add(jPanelUnmatchPassword);
@@ -558,6 +590,12 @@ public class SettingsView extends javax.swing.JFrame {
             String first_name = jTextFieldSettingsFirstName.getText();
             String last_name = jTextFieldSettingsLastName.getText();
             String email = jTextFieldSettingsEmail.getText();
+            
+            if(email.equals("")){
+                System.out.println("Email must not be empty");
+                return;
+            }
+            
             String access_level = jLabelSettingsAccessLevel.getText();
             ac.editAccount(account_ID, first_name, last_name, new_password, email, access_level);
             ac.loadAccount(username, new_password);
@@ -569,6 +607,7 @@ public class SettingsView extends javax.swing.JFrame {
             jPanelSettingsContainer.revalidate();
         }
         else{
+            System.out.println("Enter your correct password");
             jPanelSettingsContainer.removeAll();
             jPanelSettingsContainer.add(jPanelWrongPassword);
             jPanelSettingsContainer.repaint();

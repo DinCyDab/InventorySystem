@@ -23,6 +23,14 @@ public class ReportController {
         this.dc.insertQuery(sql);
     }
     
+    public void updateReport(int r_ID, String status, int quantity){
+        String sql = "UPDATE Report "
+                + "SET status = '"+status+"', "
+                + "consumed = '"+quantity+"' "
+                + "WHERE report_ID = '"+r_ID+"'";
+        this.dc.insertQuery(sql);
+    }
+    
     public void updateReport(int r_ID, int quantity){
         String sql = "UPDATE Report "
                 + "SET consumed = '"+quantity+"' "
@@ -43,7 +51,8 @@ public class ReportController {
                     "FROM (Report\n" +
                     "INNER JOIN product ON product.product_ID = report.product_ID)\n" +
                     "INNER JOIN account ON account.account_ID = report.account_ID\n" +
-                    "WHERE report.account_ID = '"+a_ID+"'";
+                    "WHERE report.account_ID = '"+a_ID+"' "
+                    +"ORDER BY report_date DESC";
         this.reports = this.dc.loadReportsQuery(sql);
     }
     
@@ -56,7 +65,8 @@ public class ReportController {
                     "INNER JOIN account ON account.account_ID = report.account_ID\n" +
                     "WHERE report.account_ID = '"+a_ID+"'\n" +
                     "AND\n" +
-                    "report.status = '"+filter+"'";
+                    "report.status = '"+filter+"' "
+                    +"ORDER BY report_date DESC";
         this.reports = this.dc.loadReportsQuery(sql);
     }
     
@@ -70,7 +80,8 @@ public class ReportController {
                     "	(report " +
                     "INNER JOIN Account ON account.account_ID = report.account_ID) " +
                     "INNER JOIN Product ON product.product_ID = report.product_ID " +
-                    "WHERE Account.company_ID = '"+company_ID+"'";
+                    "WHERE Account.company_ID = '"+company_ID+"' "
+                    +"ORDER BY report_date DESC";
         admin_reports = this.dc.loadReportsQuery(sql);
         return admin_reports;
     }
@@ -86,7 +97,8 @@ public class ReportController {
                     "INNER JOIN Account ON account.account_ID = report.account_ID) " +
                     "INNER JOIN Product ON product.product_ID = report.product_ID " +
                     "WHERE Account.company_ID = '"+company_ID+"' " + 
-                    "AND report.status = '"+filter+"'";
+                    "AND report.status = '"+filter+"' "
+                    +"ORDER BY report_date DESC";
         admin_reports = this.dc.loadReportsQuery(sql);
         return admin_reports;
     }

@@ -80,8 +80,8 @@ public class DatabaseController {
             conn.close();
         }
         catch(SQLException e){
-            System.out.println("Connection Failed!");
-            e.printStackTrace();
+            System.out.println("Connection of the database Failed!");
+//            e.printStackTrace();
         }
         return account;
     }

@@ -15,10 +15,10 @@ public class ProductController {
         this.loadProducts(inventory_ID);
     }
     
-    public void createProduct(int i_ID, String name, String desc, int qty){
+    public void createProduct(int i_ID, String name, String desc){
         String sql = "INSERT INTO "
-                + "Product(inventory_ID, product_name, product_description, quantity)"
-                + "VALUES('"+i_ID+"', '"+name+"', '"+desc+"', '"+qty+"')";
+                + "Product(inventory_ID, product_name, product_description)"
+                + "VALUES('"+i_ID+"', '"+name+"', '"+desc+"')";
         this.dc.insertQuery(sql);
     }
     

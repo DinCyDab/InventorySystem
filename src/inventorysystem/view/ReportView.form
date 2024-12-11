@@ -519,11 +519,11 @@
                                       <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="jLabelEditReportQuantity" min="-2" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                       <Component id="jLabelEditReportID" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabelEditReportProductName" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jComboBoxEditReportStatus" min="-2" max="-2" attributes="0"/>
+                                      <Component id="jComboBoxEditReportStatus" max="32767" attributes="0"/>
+                                      <Component id="jTextFieldEditQuantity" alignment="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -552,14 +552,14 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel10" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelEditReportQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jTextFieldEditQuantity" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jComboBoxEditReportStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="19" max="32767" attributes="0"/>
+                  <EmptySpace pref="13" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -611,11 +611,6 @@
             <Property name="text" type="java.lang.String" value="N/A"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabelEditReportQuantity">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="N/A"/>
-          </Properties>
-        </Component>
         <Component class="javax.swing.JButton" name="jButton3">
           <Properties>
             <Property name="text" type="java.lang.String" value="Close"/>
@@ -646,6 +641,8 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jTextFieldEditQuantity">
         </Component>
       </SubComponents>
     </Container>
